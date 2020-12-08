@@ -14,6 +14,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/index')
 def index():
+    pass
     return render_template('index.html')
 
 @app.route('/table')
