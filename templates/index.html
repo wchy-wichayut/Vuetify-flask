@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content%}
+<br>
+<br>
+<br>
+<div id="app">
+    <div class="container">
+        <v-app id="inspire">
+            <v-card>
+                <v-card-title>
+                    <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details>
+                    </v-text-field>
+                </v-card-title>
+                <v-data-table :headers="headers" :items="desserts" :search="search"></v-data-table>
+            </v-card>
+        </v-app>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        data() {
+            return {
+        
+                    delimiters: ["[[", "]]"],
+                    created() {
+                        this.createDemo()
+                    },
+                    methods: {
+                        createDemo() {
+                            const path = 'http://127.0.0.1:5010/';
+                            axios.get(path)
+                                .then((res) => {
+                                    let response = this.transaction = res.data.transaction;
+                                    console.log('transaction: ', response)
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                });
+                        },
+            }
+        }
+    })
+</script>
+
+{% endblock %}
