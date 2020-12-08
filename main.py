@@ -19,22 +19,25 @@ def index():
 @app.route('/table')
 def table():
     lst = []
-    ref = db .child('event').get()
-    for i in ref.each():
-        commpant = i.val()['compant']
-        email = i.val()['email']
-        fname = i.val()['fname']
-        message = i.val()['message']
-        product = i.val()['product']
-        tel = i.val()['tel']
+    ref = db .child('requestDemo').get()
+    for i in ref.each()[1:]:
+        date = i.val()['Date']
+        time = i.val()['Time']
+        commpany = i.val()['event']['company']
+        email = i.val()['event']['email']
+        fname = i.val()['event']['fname']
+        message = i.val()['event']['message']
+        product = i.val()['event']['product']
+        tel = i.val()['event']['tel']
+        tag = i.val()['tag']['0']
         key = i.key()
-        box = {'conpant':commpant, 'email':email, 'fname':fname, 'message': message,
-                'product':product, 'tel':tel, 'key':key}
+        box = {'Date':date, 'Time': time, 'conpany':commpany, 'email':email, 'fname':fname, 'message': message,
+                'product':product, 'tel':tel, 'tag':tag, 'key':key}
         lst.append(box)
     data = {
         'ref':lst
         }
-    return render_template('index.html', data=data)
+    return jsonify('index.html', data=data)
 
     
 
