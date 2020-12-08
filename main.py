@@ -40,7 +40,7 @@ def table():
     return jsonify('index.html', data=data)
 
    
-   
+   dfgdfg
 
 
 if __name__=='__main__':
