@@ -30,7 +30,7 @@
                     },
                     methods: {
                         createDemo() {
-                            const path = 'http://127.0.0.1:5010/';
+                            const path = 'http://127.0.0.1:5010/requestDemo';
                             axios.get(path)
                                 .then((res) => {
                                     let response = this.transaction = res.data.transaction;
