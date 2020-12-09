@@ -14,7 +14,6 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/index')
 def index():
-    pass
     return render_template('index.html')
 
 @app.route('/table')
@@ -24,25 +23,27 @@ def table():
     for i in ref.each()[1:]:
         date = i.val()['Date']
         time = i.val()['Time']
-        commpany = i.val()['event']['company']
+        company = i.val()['event']['company']
         email = i.val()['event']['email']
         fname = i.val()['event']['fname']
         message = i.val()['event']['message']
         product = i.val()['event']['product']
         tel = i.val()['event']['tel']
-        tag = i.val()['tag']['0']
+        tag = i.val()['tag']
         key = i.key()
-        box = {'Date':date, 'Time': time, 'conpany':commpany, 'email':email, 'fname':fname, 'message': message,
+        box = {'Date':date, 'Time': time, 'company':company, 'email':email, 'fname':fname, 'message': message,
                 'product':product, 'tel':tel, 'tag':tag, 'key':key}
         lst.append(box)
     data = {
         'ref':lst
         }
-    return jsonify('index.html', data=data)
-
+    return jsonify(data)
    
-   dfgdfg
 
+@app.route('/login')
+def login():
+
+    return render_template('login.html')
 
 if __name__=='__main__':
     app.run(debug=True, port=5010)

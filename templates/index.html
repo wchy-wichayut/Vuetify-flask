@@ -1,48 +1,90 @@
 {% extends "layout.html" %}
-{% block content%}
+{% block content %}
 <br>
 <br>
 <br>
 <div id="app">
-    <div class="container">
+    <div class="container-fluid" style="margin-bottom: 15px;">
         <v-app id="inspire">
-            <v-card>
+            <v-card elevation="4" >
                 <v-card-title>
                     <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details>
                     </v-text-field>
                 </v-card-title>
-                <v-data-table :headers="headers" :items="desserts" :search="search"></v-data-table>
+                <v-data-table :headers="headers" :items="transaction" :search="search"></v-data-table>
             </v-card>
         </v-app>
     </div>
 </div>
 
+
 <script>
     new Vue({
-        el: '#app',
+        el: "#app",
         vuetify: new Vuetify(),
         data() {
             return {
-        
-                    delimiters: ["[[", "]]"],
-                    created() {
-                        this.createDemo()
+                search: '',
+                transaction: [],
+                headers: [
+                    {
+                        text: "Date",
+                        value: "Date"
                     },
-                    methods: {
-                        createDemo() {
-                            const path = 'http://127.0.0.1:5010/requestDemo';
-                            axios.get(path)
-                                .then((res) => {
-                                    let response = this.transaction = res.data.transaction;
-                                    console.log('transaction: ', response)
-                                })
-                                .catch((error) => {
-                                    console.error(error);
-                                });
-                        },
+                    {
+                        text: "Time",
+                        value: "Time"
+                    },
+                    {
+                        text: "Company",
+                        value: "company"
+                    },
+                    {
+                        text: "Email",
+                        value: "email"
+                    },
+                    {
+                        text: "Name",
+                        value: "fname"
+                    },
+                    {
+                        text: "Message",
+                        value: "message"
+                    },
+                    {
+                        text: "Product",
+                        value: "product"
+                    },
+                    {
+                        text: "Tag",
+                        value: "tag"
+                    },
+                    {
+                        text: "Tel.",
+                        value: "tel"
+                    }
+                ]
             }
+        },
+        delimiters: ["[[", "]]"],
+        methods: {
+            createTable() {
+                const path = '/table';
+                axios.get(path)
+                    .then((res) => {
+                        let response = this.transaction = res.data.ref;
+                        console.log('transaction', response)
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            },
+        },
+        created() {
+            this.createTable()
         }
     })
 </script>
+
 
 {% endblock %}
