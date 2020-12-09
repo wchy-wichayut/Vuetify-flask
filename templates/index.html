@@ -4,17 +4,20 @@
 <br>
 <br>
 <div id="app">
-    <div class="container-fluid" style="margin-bottom: 15px;">
-        <v-app id="inspire">
-            <v-card elevation="4" >
-                <v-card-title>
-                    <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details>
-                    </v-text-field>
-                </v-card-title>
-                <v-data-table :headers="headers" :items="transaction" :search="search"></v-data-table>
-            </v-card>
-        </v-app>
-    </div>
+    <v-app id="inspire">
+        <div class="container-fluid" style="margin-bottom: 15px;">
+            <v-app id="inspire">
+                <v-card elevation="4">
+                    <v-card-title>
+                        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                            hide-details>
+                        </v-text-field>
+                    </v-card-title>
+                    <v-data-table :headers="headers" :items="transaction" :search="search"></v-data-table>
+                </v-card>
+            </v-app>
+    </v-app>
+</div>
 </div>
 
 
