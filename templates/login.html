@@ -7,12 +7,13 @@
     <v-container fluid>
         <!-- <v-app id="inspire"> -->
             <v-card elevetion="2">
-                <form>
-                    <v-text-field v-model="username" label="Username. . ." required style="margin-left: 10px;
+                <form method="POST">
+                    <v-text-field name="username" v-model="username" label="Username. . ." required style="margin-left: 10px;
                                   margin-right: 10px;"></v-text-field>
-                    <v-text-field v-model="password" label="Password. . ." required style="margin-left: 10px;
+                    <v-text-field name="password" v-model="password" label="Password. . ." required style="margin-left: 10px;
                                   margin-right: 10px;"></v-text-field>
-                    <v-btn color="#1DE9B6" elevation="2" rounded style="margin-left: 10px; color:white;">
+                                  {{ error }}
+                    <v-btn type="submit" color="#1DE9B6" elevation="2" rounded style="margin-left: 10px; color:white;">
                         Login
                     </v-btn><br>
                     <v-btn color="#B388FF" elevation="2" rounded style="margin: 10px; color: white;">

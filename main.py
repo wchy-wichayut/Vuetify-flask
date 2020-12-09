@@ -1,6 +1,11 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import json
 import pyrebase
+from firebase_admin import credentials, auth
+
+cred = credentials.Certificate('config.json')
+firebase_auth = firebase_admin.initialize_app(cred)
+
 
 with open("config.json", encoding='utf 8') as json_file:
     data = json.load(json_file)
@@ -8,6 +13,9 @@ with open("config.json", encoding='utf 8') as json_file:
     firebase = pyrebase.initialize_app(config)
     pb = pyrebase.initialize_app(config)
     db = firebase.database()
+
+
+# db.child('signup').set({'key' : 'value'})
 
 app = Flask(__name__)
 
@@ -37,14 +45,23 @@ def table():
     data = {
         'ref':lst
         }
-
+    return jsonify(data)
 
 
 @app.route('/login', methods=['GET',"POST"])
 def login():
     userTest = [{'username':'login', 'password': '12345'}]
     error = None
+    erText = None
     if request.method == 'POST':
+        # Register
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        email = request.form['email']
+        usname = request.form['usname']
+        pword = request.form['pword']
+        confirmpw = request.form['confirmpw']
+        # Login
         user = request.form['username']
         password = request.form['password']
         for i in userTest:
@@ -52,15 +69,24 @@ def login():
                 error = "Try Again"
                 return render_template('login.html', error=error)
             else:
-                return redirect(url_for('index'))      
+                return redirect(url_for('index')) 
+        if confirmpw != pword:
+            return render_template('login.html', error=confirmpw)
+        if firstname is None or lastname is None or pword is None or email is None or usname is None:
+            return render_template('login.html', errort=erText)
+        try:
+            username = auth.create_user(email=email, password=password, display_name=usname)
+            data = {'firstname':firstname, 'lastname':lastname, 'email':username.email, 'usname':username.display_name,'userToken': user.uid}
+            db.child('signup').push(data)
+            return 
+        except:
+            return redirect(url_for('table'))
     return render_template('login.html')
 
 
-    
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
+
+
 
 
 
