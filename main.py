@@ -40,8 +40,24 @@ def table():
         }
     return jsonify('index.html', data=data)
 
-   
-   dfgdfg
+@app.route('/login', methods=['GET',"POST"])
+def login():
+    userTest = [{'username':'login', 'password': '12345'}]
+    error = None
+    if request.method == 'POST':
+        user = request.form['username']
+        password = request.form['password']
+        for i in userTest:
+            if i['username'] != user or i['password'] != password:
+                error = "Try Again"
+                return render_template('login.html', error=error)
+            else:
+                return redirect(url_for('index'))
+                
+    return render_template('login.html')
+
+
+    
 
 
 if __name__=='__main__':
