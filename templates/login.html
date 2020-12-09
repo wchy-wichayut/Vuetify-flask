@@ -1,27 +1,40 @@
-{% extends "layout.html" %} {% block content%}
-<br />
-<br />
-<br />
-<br />
-<div class="container-fluid" style="margin-left: 450px">
-  <div class="card border-success mb-3" style="max-width: 18rem">
-    <div class="card-header">Login</div>
-    <div class="card-body text-success">
-      <form action="" method="post">
-        <h6 class="card-title">UserID</h6>
-        <input type="text" placeholder="Username" name="username" value="{{request.form.username}}">
-        <br />
-        <br />
-        <h6 class="card-title">Password</h6>
-        <input type="password" placeholder="Password" name="password" value="{{request.form.password}}">
-        <br /><br />
-        <input class="btn btn-success" type="submit" value="Login">
-      </form>
-      {% if error %}
-      <p class="error"><strong>Error: </strong>{{ error }}</p>
-      {% endif %}
-    </div>
-  </div>
-
-  {% endblock %}
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<br>
+<br>
+<div id="app">
+    <v-container fluid>
+        <!-- <v-app id="inspire"> -->
+            <v-card elevetion="2">
+                <form>
+                    <v-text-field v-model="username" label="Username. . ." required style="margin-left: 10px;
+                                  margin-right: 10px;"></v-text-field>
+                    <v-text-field v-model="password" label="Password. . ." required style="margin-left: 10px;
+                                  margin-right: 10px;"></v-text-field>
+                    <v-btn color="#1DE9B6" elevation="2" rounded style="margin-left: 10px; color:white;">
+                        Login
+                    </v-btn><br>
+                    <v-btn color="#B388FF" elevation="2" rounded style="margin: 10px; color: white;">
+                        Register
+                    </v-btn>
+                </form>
+        <!-- </v-app> -->
+    </v-container>
 </div>
+
+<script>
+    new Vue({
+        el: "#app",
+        vuetify: new Vuetify(),
+        data() {
+            return {
+                
+            }
+        }
+
+    })
+</script>
+
+{% endblock %}
+
