@@ -4,37 +4,86 @@
 <br>
 <br>
 <div id="app">
-    <v-container fluid>
-        <!-- <v-app id="inspire"> -->
+    <v-app id="inspire">
+        <v-container fluid>
             <v-card elevetion="2">
-                <form>
-                    <v-text-field v-model="username" label="Username. . ." required style="margin-left: 10px;
-                                  margin-right: 10px;"></v-text-field>
-                    <v-text-field v-model="password" label="Password. . ." required style="margin-left: 10px;
-                                  margin-right: 10px;"></v-text-field>
-                    <v-btn color="#1DE9B6" elevation="2" rounded style="margin-left: 10px; color:white;">
-                        Login
-                    </v-btn><br>
-                    <v-btn color="#B388FF" elevation="2" rounded style="margin: 10px; color: white;">
-                        Register
-                    </v-btn>
+                <form method="POST">
+                    <v-text-field name="username" label="Username. . ." required style="margin-left: 11px;
+                                  margin-right: 11px;"></v-text-field>
+
+                    <v-text-field name="password" label="Password. . ." required style="margin-left: 11px;
+                                  margin-right: 11px;"></v-text-field>
+                    {{error}}
+                    <v-row>
+                        <v-btn color="#1DE9B6" type="submit" elevation="2" rounded
+                            style="margin-left: 20px; color:white; margin-right: 10px;">
+                            Sign in
+                        </v-btn>
+                        <v-dialog v-model="dialog" persistent max-width="600px">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn color="primary" dark v-bind="attrs" v-on="on" rounded>
+                                    Sign up
+                                </v-btn>
+                            </template>
+                            <v-card>
+                                <v-card-title>
+                                    <span class="headline">User Profile</span>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-container>
+                                        <v-row>
+                                            <v-col cols="12" sm="6" md="4">
+                                                <v-text-field label="First name*" required></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="4">
+                                                <v-text-field label="Last name" required></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-text-field label="Email*" type="email" required></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-text-field label="Username*" type="usname" required></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-text-field label="Password*" type="pword" required></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-text-field label="Password*" type="confirmpw" required></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-container>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="blue darken-1" text @click="dialog = false">
+                                        Close
+                                    </v-btn>
+                                    <v-btn color="blue darken-1" text @click="dialog = false">
+                                        Save
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    </v-row>
                 </form>
-        <!-- </v-app> -->
-    </v-container>
+            </v-card>
+        </v-container>
+    </v-app>
 </div>
 
 <script>
     new Vue({
-        el: "#app",
+        el: '#app',
         vuetify: new Vuetify(),
         data() {
             return {
-                
+                dialog: false
             }
-        }
+        },
+        methods: {
 
+        }
     })
 </script>
 
 {% endblock %}
-

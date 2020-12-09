@@ -37,7 +37,7 @@ def table():
     data = {
         'ref':lst
         }
-
+    return jsonify(data)
 
 
 @app.route('/login', methods=['GET',"POST"])
@@ -54,14 +54,6 @@ def login():
             else:
                 return redirect(url_for('index'))      
     return render_template('login.html')
-
-
-    
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
 
 
 if __name__=='__main__':
