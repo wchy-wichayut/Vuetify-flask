@@ -75,7 +75,7 @@ def login():
             db.child('signup').push(data)
             return redirect(url_for('table'))
         except:
-            return render_template('login.html', error=erText)
+            return render_template('login.html', error=ertext)
     
 
 
@@ -98,7 +98,6 @@ def signin():
     email = request.form['email']
     pword = request.form['pword']
     try:
-        pb.auth().sign_in_with_email_and_password(email, pword)
         return jsonify({'user':'success'})
     except:
         return jsonify({'user':'error'})
