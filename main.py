@@ -1,11 +1,12 @@
+from os import error
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import json
 import pyrebase
+import firebase_admin
 from firebase_admin import credentials, auth
 
-cred = credentials.Certificate('config.json')
-firebase_auth = firebase_admin.initialize_app(cred)
-
+cred = credentials.Certificate("keypython.json")
+firebase_admin.initialize_app(cred)
 
 with open("config.json", encoding='utf 8') as json_file:
     data = json.load(json_file)
@@ -50,40 +51,57 @@ def table():
 
 @app.route('/login', methods=['GET',"POST"])
 def login():
-    userTest = [{'username':'login', 'password': '12345'}]
-    error = None
-    erText = None
-    if request.method == 'POST':
-        # Register
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        error = "Please fill in correctly."
+        ertext = "Please fill in all information"
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         email = request.form['email']
         usname = request.form['usname']
         pword = request.form['pword']
         confirmpw = request.form['confirmpw']
-        # Login
-        user = request.form['username']
-        password = request.form['password']
-        for i in userTest:
-            if i['username'] != user or i['password'] != password:
-                error = "Try Again"
-                return render_template('login.html', error=error)
-            else:
-                return redirect(url_for('index')) 
         if confirmpw != pword:
-            return render_template('login.html', error=confirmpw)
+            return render_template('login.html', error=error)
         if firstname is None or lastname is None or pword is None or email is None or usname is None:
-            return render_template('login.html', errort=erText)
+            return render_template('login.html', ertext=ertext)
         try:
-            username = auth.create_user(email=email, password=password, display_name=usname)
-            data = {'firstname':firstname, 'lastname':lastname, 'email':username.email, 'usname':username.display_name,'userToken': user.uid}
+            username = auth.create_user(email=email, password=pword, display_name=usname)
+            data = {'firstname':firstname, 'lastname':lastname, 'email':username.email, 
+            'usname':username.display_name,'userToken': username.uid}
             db.child('signup').push(data)
-            return 
-        except:
             return redirect(url_for('table'))
-    return render_template('login.html')
+        except:
+            return render_template('login.html', error=erText)
+    
 
 
-dfg
+
+@app.route('/key', methods=["POST"])
+def register():
+    firstname = request.form['firstname']
+    lastname = request.form['lastname']
+    email = request.form['email']
+    usname = request.form['usname']
+    pword = request.form['pword']
+    
+    send = {'firstname':firstname, 'lastname':lastname, 'email':email, 'usname':usname, "pword":pword}
+
+    username = auth.create_user(email=email, password=pword, display_name=usname)
+    return jsonify({'user':username})
+
+@app.route('/logkey', methods=['POST'])
+def signin():
+    email = request.form['email']
+    pword = request.form['pword']
+    try:
+        pb.auth().sign_in_with_email_and_password(email, pword)
+        return jsonify({'user':'success'})
+    except:
+        return jsonify({'user':'error'})
+ 
+
+
 if __name__=='__main__':
     app.run(debug=True, port=5010)

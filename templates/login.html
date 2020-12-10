@@ -7,7 +7,7 @@
     <v-app id="inspire">
         <v-container fluid>
             <v-card elevetion="2">
-                <form method="POST">
+                <form method="POST" action="/login">
                     <v-text-field name="username" label="Username. . ." required style="margin-left: 11px;
                                   margin-right: 11px;"></v-text-field>
 
@@ -33,7 +33,7 @@
                                     <v-container>
                                         <v-row>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field label="First name*" required></v-text-field>
+                                                <v-text-field  label="First name*" required></v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
                                                 <v-text-field label="Last name" required></v-text-field>
@@ -58,14 +58,15 @@
                                     <v-btn color="blue darken-1" text @click="dialog = false">
                                         Close
                                     </v-btn>
-                                    <v-btn color="blue darken-1" text @click="dialog = false">
+                                    <button type="submit">
+                                    <v-btn type="submit" color="blue darken-1" text>
                                         Save
                                     </v-btn>
+                                    </button>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
                     </v-row>
-
                 </form>
             </v-card>
         </v-container>
