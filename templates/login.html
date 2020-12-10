@@ -12,93 +12,89 @@
                         style="margin: 0px 15px 0px 15px"></v-text-field>
                     <v-text-field name="pword" label="Password" required outlined dense
                         style="margin: 0px 15px 0px 15px;"></v-text-field>
-                    <!-- <v-alert color="red" type="error"> {{error}}</v-alert> -->
                     <v-row style="margin-top: -15px;">
                         <v-btn color="#00BFA5" type="submit" elevation="2" rounded
                             style="margin: 0px 10px 10px 25px; color:white; margin-right: 10px;">
                             Sign in
                         </v-btn>
-                        <v-dialog v-model="dialog" persistent max-width="600px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn color="#B388FF" dark v-bind="attrs" v-on="on" rounded>
-                                    Sign up
-                                </v-btn>
-                            </template>
-                            <v-card>
-                                <v-card-title>
-                                    <span class="headline">User Information</span>
-                                </v-card-title>
-                                <v-card-text>
-                                    <v-container>
-                                        <v-row>
-                                            <v-col cols="12" sm="6">
-                                                <v-text-field label="First name*" v-model="firstname" id="firstname"
-                                                    name="firstname" type="text" :rules="[rules.required]" required
-                                                    outlined dense>
-                                                </v-text-field>
-
-                                            </v-col>
-                                            <v-col cols="12" sm="6">
-                                                <v-text-field label="Last name*" v-model="lastname" id="lastname"
-                                                    name="lastname" type="text" :rules="[rules.required]" required
-                                                    outlined dense>
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6">
-                                                <v-text-field label="Username*" v-model="username" id="username"
-                                                    name="username" type="text" :rules="[rules.required]" required
-                                                    outlined dense>
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6">
-                                                <v-text-field label="Email*" v-model="email" id="email" name="email"
-                                                    type="email" :rules="[rules.required, rules.email]" required
-                                                    outlined dense>
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6">
-                                                <v-text-field :append-icon="password ? 'mdi-eye' : 'mdi-eye-off'"
-                                                    v-model="textPwd" :rules="[rules.required, rules.min]"
-                                                    name="password" :type="password ? 'text' : 'password'"
-                                                    label="Password*" hint="At least 6 characters" required counter
-                                                    outlined dense counter @click:append="pword = !pword">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6">
-                                                <v-text-field :append-icon="confirmpw ? 'mdi-eye' : 'mdi-eye-off'"
-                                                    v-model="textCon" :rules="[rules.required, rules.min]"
-                                                    name="confirmpw" :type="confirmpw ? 'text' : 'password'"
-                                                    label="Confirm Password*" hint="At least 6 characters" required
-                                                    counter outlined dense counter
-                                                    @click:append="confirmpw = !confirmpw">
-                                                </v-text-field>
-                                            </v-col>
-                                            <br>
-                                            <!-- <v-alert :value="alert" color="pink" dark border="top"
-                                                transition="scale-transition">
-                                                {{error}}
-                                            </v-alert> -->
-                                        </v-row>
-
-                                    </v-container>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn color="blue darken-1" text @click="dialog = false">
-                                        Close
-                                    </v-btn>
-
-                                    <v-btn color="blue darken-1" text>
-                                        <button type="submit">
-                                            <v-btn type="submit" color="blue darken-1" text>
-                                                Save
-                                            </v-btn>
-                                        </button>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                    </v-row>
                 </form>
+                <v-dialog v-model="dialog" persistent max-width="600px">
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn color="#B388FF" dark v-bind="attrs" v-on="on" rounded>
+                            Sign up
+                        </v-btn>
+                    </template>
+                    <v-card>
+                        <v-form method="POST">
+                            <v-card-title>
+                                <span class="headline">User Information</span>
+                            </v-card-title>
+                            <v-card-text>
+                                <v-container>
+                                    <v-row>
+                                        <v-col cols="12" sm="6">
+                                            <v-text-field label="First name*" v-model="firstname" id="firstname"
+                                                name="firstname" type="text" :rules="[rules.required]" required outlined
+                                                dense>
+                                            </v-text-field>
+
+                                        </v-col>
+                                        <v-col cols="12" sm="6">
+                                            <v-text-field label="Last name*" v-model="lastname" id="lastname"
+                                                name="lastname" type="text" :rules="[rules.required]" required outlined
+                                                dense>
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6">
+                                            <v-text-field label="Username*" v-model="username" id="username"
+                                                name="username" type="text" :rules="[rules.required]" required outlined
+                                                dense>
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6">
+                                            <v-text-field label="Email*" v-model="email" id="email" name="email"
+                                                type="email" :rules="[rules.required, rules.email]" required outlined
+                                                dense>
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6">
+                                            <v-text-field :append-icon="password ? 'mdi-eye' : 'mdi-eye-off'"
+                                                v-model="textPwd" :rules="[rules.required, rules.min]" name="password"
+                                                :type="password ? 'text' : 'password'" label="Password*"
+                                                hint="At least 6 characters" required counter outlined dense counter
+                                                @click:append="pword = !pword">
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6">
+                                            <v-text-field :append-icon="confirmpw ? 'mdi-eye' : 'mdi-eye-off'"
+                                                v-model="textCon" :rules="[rules.required, rules.min]" name="confirmpw"
+                                                :type="confirmpw ? 'text' : 'password'" label="Confirm Password*"
+                                                hint="At least 6 characters" required counter outlined dense counter
+                                                @click:append="confirmpw = !confirmpw">
+                                            </v-text-field>
+                                        </v-col>
+                                        <br>
+
+                                    </v-row>
+
+                                </v-container>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="blue darken-1" text @click="dialog = false">
+                                    Close
+                                </v-btn>
+
+                                <v-btn type="submit" color="blue darken-1" text>
+                                    Save
+
+                                </v-btn>
+                            </v-card-actions>
+                        </v-form>
+                    </v-card>
+                </v-dialog>
+                </v-row>
+
             </v-card>
         </v-container>
     </v-app>
