@@ -29,10 +29,12 @@ app.secret_key = 'patthadonhahah'
 @app.route('/')
 @app.route('/index')
 def index():
+    print(session)
     log = False 
     if 'hhname' in session and 'ssword' in session:
         log = True
     return render_template('index.html', log=log)
+    
 
 @app.route('/table')
 def table():
@@ -63,9 +65,10 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     elif request.method == 'POST':
+        # Register
         error = "Please fill in correctly."
         ertext = "Please fill in all information"
-        loginerror = 'Invalid credentials. Please try again.'
+
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         email = request.form['email']
@@ -73,8 +76,8 @@ def login():
         pword = request.form['pword']
         confirmpw = request.form['confirmpw']
         # Check Login
-        userlogin = request.form['userlogin']
-        passlogin = request.form['passlogin']
+        # userlogin = request.form['userlogin']
+        # passlogin = request.form['passlogin']
 
         if confirmpw != pword:
             return render_template('login.html', error=error)
@@ -86,19 +89,19 @@ def login():
             data = {'firstname':firstname, 'lastname':lastname, 'email':username.email, 
             'usname':username.display_name,'userToken': username.uid}
             db.child('signup').push(data)
-            pb.auth().sign_in_with_email_and_password(userlogin, passlogin)
-            return redirect(url_for('table'))
+            # pb.auth().sign_in_with_email_and_password(userlogin, passlogin)
+            return jsonify({'signup':username})
         except:
-            ref = {
-                'user' : userlogin,
-                'error' : loginerror
-            }
-            return render_template('login.html', error=(ertext,ref))
+            
+            return render_template('login.html')
 
 
         
 
-
+# ref = {
+            #     'user' : userlogin,
+            #     'error' : loginerror
+            # }
 
 
 @app.route('/lg', methods=['GET', 'POST'])
@@ -119,6 +122,7 @@ def lg():
         
 @app.route('/logout')
 def logout():
+    print(session)
     session.pop('hhname', None)
     session.pop('ssword', None)
     return redirect(url_for('lg'))
@@ -142,6 +146,7 @@ def signin():
     email = request.form['email']
     pword = request.form['pword']
     try:
+        pb.auth().sign_in_with_email_and_password(email, pword)
         return jsonify({'user':'success'})
     except:
         return jsonify({'user':'error'})

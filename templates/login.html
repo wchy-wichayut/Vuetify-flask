@@ -1,4 +1,4 @@
-<!-- {% extends "layout.html" %}
+{% extends "layout.html" %}
 {% block content %}
 <br>
 <br>
@@ -10,7 +10,6 @@
                 <form method="POST">
                     <v-text-field name="username" label="Username" required outlined dense
                         style="margin: 0px 15px 0px 15px"></v-text-field>
-
                     <v-text-field name="pword" label="Password" required outlined dense
                         style="margin: 0px 15px 0px 15px;"></v-text-field>
                     <!-- <v-alert color="red" type="error"> {{error}}</v-alert> -->
@@ -27,77 +26,57 @@
                             </template>
                             <v-card>
                                 <v-card-title>
-                                    <span class="headline">SignUp Information</span>
+                                    <span class="headline">User Information</span>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-container>
                                         <v-row>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="firstname">First Name</label>
-                                                    <input :class="getInput('firstname')"
-                                                        v-model="formCheck.firstname.value"
-                                                        @keyup="onActionForm($event)" id="firstname" name="firstname"
-                                                        type="text" placeholder="Enter first name">
-                                                    <div class="invalid-feedback">[[ getErrorMessage('firstname') ]]
-                                                    </div>
-                                                </div>
+                                                <v-text-field label="First name*" v-model="firstname" id="firstname"
+                                                    name="firstname" type="text" :rules="[rules.required]" required
+                                                    outlined dense>
+                                                </v-text-field>
+
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="lastname">Last Name</label>
-                                                    <input :class="getInput('lastname')"
-                                                        v-model="formCheck.lastname.value"
-                                                        @keyup="onActionForm($event)" id="lastname" name="lastname"
-                                                        type="text" placeholder="Enter lastname" />
-                                                    <div class="invalid-feedback">[[ getErrorMessage('lastname') ]]
-                                                    </div>
-                                                </div>
+                                                <v-text-field label="Last name*" v-model="lastname" id="lastname"
+                                                    name="lastname" type="text" :rules="[rules.required]" required
+                                                    outlined dense>
+                                                </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputUsername">Username</label>
-                                                    <input :class="getInput('userId')"
-                                                        v-model="formCheck.userId.value"
-                                                        @keyup="onActionForm($event)" id="userId" type="text"
-                                                        name="userId" placeholder="Enter Username" />
-                                                    <div class="invalid-feedback">[[ getErrorMessage('userId') ]]</div>
-                                                </div>
+                                                <v-text-field label="Username*" v-model="username" id="username"
+                                                    name="username" type="text" :rules="[rules.required]" required
+                                                    outlined dense>
+                                                </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="email">Email</label>
-                                                    <input :class="getInput('email')"
-                                                        v-model="formCheck.email.value" @keyup="onActionForm($event)"
-                                                        id="inputEmailAddress" type="email" name="email"
-                                                        aria-describedby="emailHelp"
-                                                        placeholder="Enter email address" />
-                                                    <div class="invalid-feedback">[[ getErrorMessage('email') ]]</div>
-                                                </div>
+                                                <v-text-field label="Email*" v-model="email" id="email" name="email"
+                                                    type="email" :rules="[rules.required, rules.email]" required
+                                                    outlined dense>
+                                                </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="password">Password</label>
-                                                    <input :class="getInput('password')"
-                                                        v-model="formCheck.password.value"
-                                                        @keyup="onActionForm($event)" name="password" id="inputPassword"
-                                                        type="password" placeholder="Enter password" required />
-                                                    <div class="invalid-feedback">[[ getErrorMessage('password') ]]
-                                                    </div>
-                                                </div>
+                                                <v-text-field :append-icon="password ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    v-model="textPwd" :rules="[rules.required, rules.min]"
+                                                    name="password" :type="password ? 'text' : 'password'"
+                                                    label="Password*" hint="At least 6 characters" required counter
+                                                    outlined dense counter @click:append="pword = !pword">
+                                                </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputPassword">Confirm
-                                                        Password</label>
-                                                    <input class="form-control " name="confirmpwd" id="confirmPassword"
-                                                        type="password" placeholder="Confirm password" required />
-                                                </div>
+                                                <v-text-field :append-icon="confirmpw ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    v-model="textCon" :rules="[rules.required, rules.min]"
+                                                    name="confirmpw" :type="confirmpw ? 'text' : 'password'"
+                                                    label="Confirm Password*" hint="At least 6 characters" required
+                                                    counter outlined dense counter
+                                                    @click:append="confirmpw = !confirmpw">
+                                                </v-text-field>
                                             </v-col>
                                             <br>
                                             <!-- <v-alert :value="alert" color="pink" dark border="top"
                                                 transition="scale-transition">
-                                                Please Input
+                                                {{error}}
                                             </v-alert> -->
                                         </v-row>
 
@@ -108,10 +87,13 @@
                                     <v-btn color="blue darken-1" text @click="dialog = false">
                                         Close
                                     </v-btn>
-                                    <v-btn type="submit" color="blue darken-1" text :disabled="!formValid">
-                                        Save
-                                    </v-btn>
-                                    </button>
+
+                                    <v-btn color="blue darken-1" text>
+                                        <button type="submit">
+                                            <v-btn type="submit" color="blue darken-1" text>
+                                                Save
+                                            </v-btn>
+                                        </button>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -129,123 +111,32 @@
         data() {
             return {
                 dialog: false,
-                formCheck: {
-                    firstname: {
-                        type: 'text',
-                        value: '',
-                        validator: {
-                            required: true,
-                        },
-                        touched: false,
-                        error: { status: true, message: '' }
+                pword: false,
+                confirmpw: false,
+                textCon: '',
+                textPwd: '',
+                alert: false,
+                username: '',
+                firstname: '',
+                lastname: '',
+                email: '',
+                password: '',
+                rules: {
+                    required: value => !!value || 'This field is required',
+                    min: v => v.length >= 6 || 'Min 6 Characters',
+                    email: value => {
+                        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                        return pattern.test(value) || 'Invalid E-mail'
                     },
-                    lastname: {
-                        type: 'text',
-                        value: '',
-                        validator: {
-                            required: true,
-                        },
-                        touched: false,
-                        error: { status: true, message: '' }
-                    },
-                    userId: {
-                        type: 'text',
-                        value: '',
-                        validator: {
-                            required: true,
-                            minLength: 4,
-                            maxLength: 15
-                        },
-                        touched: false,
-                        error: { status: true, message: '' }
-                    },
-                    email: {
-                        type: 'email',
-                        value: '',
-                        validator: {
-                            required: true,
-                            pattern: 'email'
-                        },
-                        touched: false,
-                        error: { status: true, message: '' }
-                    },
-                    password: {
-                        type: 'password',
-                        value: '',
-                        validator: {
-                            required: true,
-                            minLength: 6
-                        },
-                        touched: false,
-                        error: { status: true, message: '' }
-                    }
                 },
-                formValid: false
             }
         },
         delimiters: ["[[", "]]"],
         methods: {
-            onActionForm() {
-                const name = event.target.name;
-                const value = event.target.value;
-                let updatedForm = { ...this.formCheck };
-                updatedForm[name].value = value;
-                updatedForm[name].touched = true;
-                const validatorObj = this.checkValidator(
-                    value,
-                    updatedForm[name].validator
-                );
-                updatedForm[name].error = {
-                    status: validatorObj.status,
-                    message: validatorObj.message
-                };
-                let formStatus = true;
-                for (let name in updatedForm) {
-                    if (updatedForm[name].validator.required === true) {
-                        formStatus = !updatedForm[name].error.status && formStatus;
-                    }
-                }
-                this.formCheck = updatedForm;
-                this.formValid = formStatus;
-            },
-            checkValidator(value, rule) {
-                let valid = ture;
-                let message = '';
-                if (valid.trim().length === 0 && rule.required) {
-                    valid = false;
-                    message = 'Please Input data'
-                }
-                if (valid.length < rule.minLength && valid) {
-                    valid = false;
-                    message = `Less than $(rule.minLength) characters`;
-                }
-                if (rule.pattern === 'email' && valid) {
-                    if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value) === false) {
-                        valid = false;
-                        message = 'Invalid Email'
-                    }
-                    return { status: !valid, message: message }
-                }
-            },
-            getInput(name) {
-                const elementErrorStatus = this.formCheck[name].error.status;
-                if (!this.formCheck[name].touched) {
-                    return ["form-control"];
-                } else {
-                    return elementErrorStatus && this.formCheck[name].touched ? ['form-control', 'is-invalid'] : ['form-control', 'is-valid'];
-                }
-            },
-            getErrorMessage(name) {
-                return this.formCheck[name].error.message;
-            },
-            btnFormSubmit() {
-                const formData = {};
-                for (let name in this.formCheck) {
-                    formData[name] = this.formCheck[name].value;
-                }
-            }
+
         }
+
     })
 </script>
 
-{% endblock %} 
+{% endblock %}
