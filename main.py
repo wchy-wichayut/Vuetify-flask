@@ -29,10 +29,10 @@ app.secret_key = 'patthadonhahah'
 @app.route('/')
 @app.route('/index')
 def index():
-    log = False 
-    if 'hhname' in session and 'ssword' in session:
-        log = True
-    return render_template('index.html', log=log)
+    # log = False 
+    # if 'hhname' in session and 'ssword' in session:
+    #     log = True
+    return render_template('index.html')
 
 @app.route('/table')
 def table():
@@ -63,88 +63,64 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     elif request.method == 'POST':
-        error = "Please fill in correctly."
-        ertext = "Please fill in all information"
-        loginerror = 'Invalid credentials. Please try again.'
+   
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         email = request.form['email']
-        usname = request.form['usname']
-        pword = request.form['pword']
-        confirmpw = request.form['confirmpw']
-        # Check Login
-        userlogin = request.form['userlogin']
-        passlogin = request.form['passlogin']
-
-        if confirmpw != pword:
-            return render_template('login.html', error=error)
-        if firstname is None or lastname is None or pword is None or email is None or usname is None:
-            return render_template('login.html', ertext=ertext)
-
-        try:
-            username = auth.create_user(email=email, password=pword, display_name=usname)
-            data = {'firstname':firstname, 'lastname':lastname, 'email':username.email, 
-            'usname':username.display_name,'userToken': username.uid}
-            db.child('signup').push(data)
-            pb.auth().sign_in_with_email_and_password(userlogin, passlogin)
-            return redirect(url_for('table'))
-        except:
-            ref = {
-                'user' : userlogin,
-                'error' : loginerror
-            }
-            return render_template('login.html', error=(ertext,ref))
-
-
+        username = request.form['username']
+        password = request.form['password']
         
-
-
-
-
-@app.route('/lg', methods=['GET', 'POST'])
-def lg():
-    userTest = [{'hhname':'admin', 'ssword': '123456'}]
-    ertet = None
-    if request.method == 'POST':
-        for i in userTest:
-            if request.form['hhname'] != i['hhname'] or request.form['ssword'] != i['ssword']:
-                ertet = "Try Again"
-                return render_template('testlogin.html', error=ertet)
-            else:
-                return redirect(url_for('index'))
-        session['hhname'] = request.form['hhname']
-        session['ssword'] = request.form['ssword']
+        user = auth.create_user(email=email, password=password, display_name=username)
+        data = {'firstname':firstname, 'lastname':lastname, 'email':user.email, 
+        'username':user.display_name,'userToken': user.uid}
+        db.child('signup').push(data)
         return redirect(url_for('index'))
-    return render_template('testlogin.html')
+
+# @app.route('/lg', methods=['GET', 'POST'])
+# def lg():
+#     userTest = [{'hhname':'admin', 'ssword': '123456'}]
+#     ertet = None
+#     if request.method == 'POST':
+#         for i in userTest:
+#             if request.form['hhname'] != i['hhname'] or request.form['ssword'] != i['ssword']:
+#                 ertet = "Try Again"
+#                 return render_template('testlogin.html', error=ertet)
+#             else:
+#                 return redirect(url_for('index'))
+#         session['hhname'] = request.form['hhname']
+#         session['ssword'] = request.form['ssword']
+#         return redirect(url_for('index'))
+#     return render_template('testlogin.html')
         
-@app.route('/logout')
-def logout():
-    session.pop('hhname', None)
-    session.pop('ssword', None)
-    return redirect(url_for('lg'))
+# @app.route('/logout')
+# def logout():
+#     session.pop('hhname', None)
+#     session.pop('ssword', None)
+#     return redirect(url_for('lg'))
 
 
-@app.route('/key', methods=["POST"])
-def register():
-    firstname = request.form['firstname']
-    lastname = request.form['lastname']
-    email = request.form['email']
-    usname = request.form['usname']
-    pword = request.form['pword']
+# @app.route('/key', methods=["POST"])
+# def register():
+#     firstname = request.form['firstname']
+#     lastname = request.form['lastname']
+#     email = request.form['email']
+#     usname = request.form['usname']
+#     pword = request.form['pword']
     
-    send = {'firstname':firstname, 'lastname':lastname, 'email':email, 'usname':usname, "pword":pword}
+#     send = {'firstname':firstname, 'lastname':lastname, 'email':email, 'usname':usname, "pword":pword}
 
-    username = auth.create_user(email=email, password=pword, display_name=usname)
-    return jsonify({'user':username})
+#     username = auth.create_user(email=email, password=pword, display_name=usname)
+#     return jsonify({'user':username})
 
-@app.route('/logkey', methods=['POST'])
-def signin():
-    email = request.form['email']
-    pword = request.form['pword']
-    try:
-        return jsonify({'user':'success'})
-    except:
-        return jsonify({'user':'error'})
+# @app.route('/logkey', methods=['POST'])
+# def signin():
+#     email = request.form['email']
+#     pword = request.form['pword']
+#     try:
+#         pb.auth().sign_in_with_email_and_password(email,pword)
+#         return jsonify({'user':'success'})
+#     except:
+#         return jsonify({'user':'error'})
  
 
 
