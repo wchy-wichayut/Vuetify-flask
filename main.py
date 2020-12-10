@@ -73,7 +73,7 @@ def login():
             db.child('signup').push(data)
             return redirect(url_for('table'))
         except:
-            return render_template('login.html', error=erText)
+            return render_template('login.html', error=ertext)
     
 
 
