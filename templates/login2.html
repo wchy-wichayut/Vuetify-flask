@@ -1,4 +1,4 @@
-<!-- {% extends "layout.html" %}
+{% extends "layout.html" %}
 {% block content %}
 <br>
 <br>
@@ -33,72 +33,53 @@
                                     <v-container>
                                         <v-row>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="firstname">First Name</label>
-                                                    <input :class="getInput('firstname')"
-                                                        v-model="formCheck.firstname.value"
-                                                        @keyup="onActionForm($event)" id="firstname" name="firstname"
-                                                        type="text" placeholder="Enter first name">
-                                                    <div class="invalid-feedback">[[ getErrorMessage('firstname') ]]
-                                                    </div>
-                                                </div>
+                                                <v-text-field label="First name*" :class="getInput('firstname')"
+                                                    v-model="formCheck.firstname.value" @keyup="onActionForm($event)"
+                                                    id="firstname" name="name" type="text" outlined dense>
+                                                </v-text-field>
+                                                [[ getErrorMessage('firstname') ]]
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="lastname">Last Name</label>
-                                                    <input :class="getInput('lastname')"
-                                                        v-model="formCheck.lastname.value"
-                                                        @keyup="onActionForm($event)" id="lastname" name="lastname"
-                                                        type="text" placeholder="Enter lastname" />
-                                                    <div class="invalid-feedback">[[ getErrorMessage('lastname') ]]
-                                                    </div>
-                                                </div>
+                                                <v-text-field label="Last name*" :class="getInput('lastname')"
+                                                    v-model="formCheck.lastname.value" @keyup="onActionForm($event)"
+                                                    id="lastname" name="lastname" type="text" outlined dense></v-text-field>
+                                                [[ getErrorMessage('firstname') ]]
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputUsername">Username</label>
-                                                    <input :class="getInput('userId')"
-                                                        v-model="formCheck.userId.value"
-                                                        @keyup="onActionForm($event)" id="userId" type="text"
-                                                        name="userId" placeholder="Enter Username" />
-                                                    <div class="invalid-feedback">[[ getErrorMessage('userId') ]]</div>
-                                                </div>
+                                                <v-text-field label="Username*" :clsss="getInput(userId)"
+                                                    v-model="formCheck.userId.value" @keyup="onActionForm($event)"
+                                                    id="userId" name="userId" type="text" outlined dense>
+                                                </v-text-field>
+                                                [[ getErrorMessage('userId') ]]
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="email">Email</label>
-                                                    <input :class="getInput('email')"
-                                                        v-model="formCheck.email.value" @keyup="onActionForm($event)"
-                                                        id="inputEmailAddress" type="email" name="email"
-                                                        aria-describedby="emailHelp"
-                                                        placeholder="Enter email address" />
-                                                    <div class="invalid-feedback">[[ getErrorMessage('email') ]]</div>
-                                                </div>
+                                                <v-text-field label="Email*" :class="getInput('email')"
+                                                    v-model="formCheck.email.value" id="EmailAddress" name="email"
+                                                    type="email" outlined dense>
+                                                </v-text-field>
+                                                [[ getErrorMessage('email') ]]
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="password">Password</label>
-                                                    <input :class="getInput('password')"
-                                                        v-model="formCheck.password.value"
-                                                        @keyup="onActionForm($event)" name="password" id="inputPassword"
-                                                        type="password" placeholder="Enter password" required />
-                                                    <div class="invalid-feedback">[[ getErrorMessage('password') ]]
-                                                    </div>
-                                                </div>
+                                                <v-text-field :append-icon="pword ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    v-model="formCheck.password.value" @keyup="onActionForm($event)"
+                                                    name="password" id="InputPassword"
+                                                    :type="pword ? 'text' : 'password'" label="Password*"
+                                                    hint="At least 6 characters" outlined dense counter>
+                                                </v-text-field>
+                                                [[ getErrorMessage('password') ]]
                                             </v-col>
                                             <v-col cols="12" sm="6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputPassword">Confirm
-                                                        Password</label>
-                                                    <input class="form-control " name="confirmpwd" id="confirmPassword"
-                                                        type="password" placeholder="Confirm password" required />
-                                                </div>
+                                                <v-text-field :append-icon="confirmpw ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :class="form-control" name="confirmpw" id="confirmpassword"
+                                                    :type="confirmpw ? 'text' : 'password'" label="Confirm Password*"
+                                                    hint="At least 6 characters" outlined dense counter>
+                                                </v-text-field>
                                             </v-col>
                                             <br>
-                                            <!-- <v-alert :value="alert" color="pink" dark border="top"
+                                            <v-alert :value="alert" color="pink" dark border="top"
                                                 transition="scale-transition">
                                                 Please Input
-                                            </v-alert> -->
+                                            </v-alert>
                                         </v-row>
 
                                     </v-container>
@@ -248,4 +229,4 @@
     })
 </script>
 
-{% endblock %} 
+{% endblock %}

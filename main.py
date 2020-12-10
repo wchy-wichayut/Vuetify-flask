@@ -142,7 +142,6 @@ def signin():
     email = request.form['email']
     pword = request.form['pword']
     try:
-        pb.auth().sign_in_with_email_and_password(email, pword)
         return jsonify({'user':'success'})
     except:
         return jsonify({'user':'error'})
