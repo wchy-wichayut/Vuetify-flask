@@ -1,0 +1,28 @@
+{% extends "layout.html" %} 
+{% block content%}
+<br />
+<br />
+<br />
+<br />
+<div class="container-fluid" style="margin-left: 450px">
+  <div class="card border-success mb-3" style="max-width: 18rem">
+    <div class="card-header">Login</div>
+    <div class="card-body text-success">
+      <form action="" method="post">
+        <h6 class="card-title">UserID</h6>
+        <input type="text" placeholder="Username" name="hhname" value="{{request.form.hhname}}">
+        <br />
+        <br />
+        <h6 class="card-title">Password</h6>
+        <input type="password" placeholder="Password" name="ssword" value="{{request.form.ssword}}">
+        <br /><br />
+        <input class="btn btn-success" type="submit" value="Login">
+      </form>
+      {% if error %}
+      <p class="error"><strong>Error: </strong>{{ error }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% endblock %}
+</div>
