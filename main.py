@@ -3,8 +3,8 @@ import json
 import pyrebase
 from firebase_admin import credentials, auth
 
-cred = credentials.Certificate('config.json')
-firebase_auth = firebase_admin.initialize_app(cred)
+# cred = credentials.Certificate('config.json')
+# firebase_auth = firebase_admin.initialize_app(cred)
 
 
 with open("config.json", encoding='utf 8') as json_file:
@@ -61,6 +61,7 @@ def login():
         usname = request.form['usname']
         pword = request.form['pword']
         confirmpw = request.form['confirmpw']
+        
         # Login
         user = request.form['username']
         password = request.form['password']
@@ -84,6 +85,6 @@ def login():
     return render_template('login.html')
 
 
-dfg
+
 if __name__=='__main__':
     app.run(debug=True, port=5010)
