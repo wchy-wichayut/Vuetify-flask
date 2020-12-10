@@ -36,7 +36,6 @@
                                                 <v-text-field label="First name*" :rules="[rules.required]" required
                                                     outlined dense>
                                                 </v-text-field>
-                                                </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6">
                                                 <v-text-field label="Last name*" :rules="[rules.required]" required
@@ -71,7 +70,7 @@
                                             <br>
                                             <v-alert :value="alert" color="pink" dark border="top"
                                                 transition="scale-transition">
-                                                Please Input 
+                                                Please Input
                                             </v-alert>
                                         </v-row>
 
@@ -85,11 +84,11 @@
                                     <v-btn color="blue darken-1" text @click="checkPwd">
                                         Save
                                     </v-btn>
+                                    </button>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
                     </v-row>
-
                 </form>
             </v-card>
         </v-container>
