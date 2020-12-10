@@ -8,6 +8,7 @@ from firebase_admin import credentials, auth
 cred = credentials.Certificate("keypython.json")
 firebase_admin.initialize_app(cred)
 
+
 with open("config.json", encoding='utf 8') as json_file:
     data = json.load(json_file)
     config = data["firebase"]
@@ -62,6 +63,7 @@ def login():
         usname = request.form['usname']
         pword = request.form['pword']
         confirmpw = request.form['confirmpw']
+
         if confirmpw != pword:
             return render_template('login.html', error=error)
         if firstname is None or lastname is None or pword is None or email is None or usname is None:
