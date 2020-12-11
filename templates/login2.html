@@ -42,7 +42,8 @@
                                             <v-col cols="12" sm="6">
                                                 <v-text-field label="Last name*" :class="getInput('lastname')"
                                                     v-model="formCheck.lastname.value" @keyup="onActionForm($event)"
-                                                    id="lastname" name="lastname" type="text" outlined dense></v-text-field>
+                                                    id="lastname" name="lastname" type="text" outlined dense>
+                                                </v-text-field>
                                                 [[ getErrorMessage('firstname') ]]
                                             </v-col>
                                             <v-col cols="12" sm="6">
@@ -213,7 +214,7 @@
                 if (!this.formCheck[name].touched) {
                     return ["form-control"];
                 } else {
-                    return elementErrorStatus && this.formCheck[name].touched ? ['form-control', 'is-invalid'] : ['form-control', 'is-valid'];
+                    return elementErrorStatus && this.formCheck[name].touched ? ['form-control', 'is-invalid'] : ['form-control', 'is-valid']; //change for Vuetify class
                 }
             },
             getErrorMessage(name) {

@@ -29,9 +29,7 @@ app.secret_key = 'patthadonhahah'
 @app.route('/')
 @app.route('/index')
 def index():
-    # log = False 
-    # if 'hhname' in session and 'ssword' in session:
-    #     log = True
+
     return render_template('index.html')
 
 @app.route('/table')
@@ -63,34 +61,17 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     elif request.method == 'POST':
-   
+        
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         email = request.form['email']
         username = request.form['username']
         password = request.form['password']
-        
         user = auth.create_user(email=email, password=password, display_name=username)
         data = {'firstname':firstname, 'lastname':lastname, 'email':user.email, 
         'username':user.display_name,'userToken': user.uid}
         db.child('signup').push(data)
         return redirect(url_for('index'))
-
-# @app.route('/lg', methods=['GET', 'POST'])
-# def lg():
-#     userTest = [{'hhname':'admin', 'ssword': '123456'}]
-#     ertet = None
-#     if request.method == 'POST':
-#         for i in userTest:
-#             if request.form['hhname'] != i['hhname'] or request.form['ssword'] != i['ssword']:
-#                 ertet = "Try Again"
-#                 return render_template('testlogin.html', error=ertet)
-#             else:
-#                 return redirect(url_for('index'))
-#         session['hhname'] = request.form['hhname']
-#         session['ssword'] = request.form['ssword']
-#         return redirect(url_for('index'))
-#     return render_template('testlogin.html')
         
 # @app.route('/logout')
 # def logout():
@@ -122,7 +103,6 @@ def login():
 #     except:
 #         return jsonify({'user':'error'})
  
-
 
 if __name__=='__main__':
     app.run(debug=True, port=5010)
