@@ -1,15 +1,17 @@
-{% extends "layout.html" %} 
-{% block content%}
+{% extends "layout.html" %}
+{% block content %}
+
+
 <br />
 <br />
 <br />
 <br />
 <div class="container-fluid" style="margin-left: 450px">
   <div class="card border-success mb-3" style="max-width: 18rem">
-    <div class="card-header">Login</div>
+    <div class="card-header">Reset your password</div>
     <div class="card-body text-success">
       <form action="" method="post">
-        <h6 class="card-title">UserID</h6>
+        <h6 class="card-title">Enter</h6>
         <input type="text" placeholder="Username" name="hhname" value="{{request.form.hhname}}">
         <br />
         <br />
@@ -23,6 +25,6 @@
       {% endif %}
     </div>
   </div>
-
-  {% endblock %}
 </div>
+
+{% endblock %}
