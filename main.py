@@ -29,6 +29,7 @@ app.secret_key = 'patthadonhahah'
 @app.route('/')
 @app.route('/index')
 def index():
+
     return render_template('index.html')
 
 @app.route('/table')
@@ -77,6 +78,7 @@ def login():
         email = request.form['email']
         username = request.form['username']
         password = request.form['password']
+
         try:
             user = auth.create_user(email=email, password=password, display_name=username)
             data = {'firstname':firstname, 'lastname':lastname, 'email':user.email, 
@@ -154,7 +156,6 @@ def logout():
 #         return jsonify({'user':'error'})
 
  
-
 
 if __name__=='__main__':
     app.run(debug=True, port=5010)
