@@ -58,10 +58,10 @@ def table():
 
 @app.route('/login', methods=['GET',"POST"])
 def login():
+    
     if request.method == 'GET':
         return render_template('login.html')
     elif request.method == 'POST':
-   
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         email = request.form['email']
@@ -70,17 +70,40 @@ def login():
         try:
             user = auth.create_user(email=email, password=password, display_name=username)
             data = {'firstname':firstname, 'lastname':lastname, 'email':user.email, 
-            'username':user.display_name,'userToken': user.uid}
+            'username':user.display_name,'userToken': user.uid, 'password':password}
             db.child('signup').push(data)
-            return redirect(url_for('table'))
+            return jsonify({'user':'success'})
         except:
             return render_template('login.html')
 
+   
         
+    
 
 
+@app.route('/logtwo', methods=["POST"])
+def logtwo():
+    if request.method == 'POST':
+        email = request.form['email']
+        pword = request.form['password']
+        try:
+            pb.auth().sign_in_with_email_and_password(email,pword)
+            return redirect(url_for('index'))
+        except:
+            return render_template('login.html')
 
 
+@app.route('/forgot', methods=["GET", 'POST'])
+def forgot():
+    if request.method == 'POST':
+        try:
+            forgot = request.form['email']
+            pb.auth().send_password_reset_email(forgot)
+            return render_template('forgot.html', error='Please check your email verify reset password')
+        except:
+            return render_template('forgot.html', error="error")   
+    return render_template('forgot.html')  
+    
         
 
 # @app.route('/logout')
@@ -105,15 +128,15 @@ def login():
 
 
 
-@app.route('/logkey', methods=['POST'])
-def signin():
-    email = request.form['email']
-    pword = request.form['pword']
-    try:
-        pb.auth().sign_in_with_email_and_password(email,pword)
-        return jsonify({'user':'success'})
-    except:
-        return jsonify({'user':'error'})
+# @app.route('/logkey', methods=['POST'])
+# def signin():
+#     email = request.form['email']
+#     pword = request.form['pword']
+#     try:
+#         pb.auth().sign_in_with_email_and_password(email,pword)
+#         return jsonify({'user':'success'})
+#     except:
+#         return jsonify({'user':'error'})
 
  
 

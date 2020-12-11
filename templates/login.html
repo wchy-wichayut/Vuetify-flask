@@ -7,10 +7,10 @@
     <v-app id="inspire">
         <v-container fluid>
             <v-card elevetion="4" style="padding-top: 15px;">
-                <form method="POST">
-                    <v-text-field name="username" label="Username" required outlined dense
+                <form method="POST" action="/logtwo">
+                    <v-text-field name="email" label="Email" required outlined dense
                         style="margin: 0px 15px 0px 15px"></v-text-field>
-                    <v-text-field name="pword" label="Password" required outlined dense
+                    <v-text-field name="password" label="Password" required outlined dense
                         style="margin: 0px 15px 0px 15px;"></v-text-field>
                     <v-row style="margin-top: -15px;">
                         <v-btn color="#00BFA5" type="submit" elevation="2" rounded
@@ -25,7 +25,7 @@
                         </v-btn>
                     </template>
                     <v-card>
-                        <v-form method="POST">
+                        <v-form method="POST" >
                             <v-card-title>
                                 <span class="headline">User Information</span>
                             </v-card-title>
@@ -87,8 +87,9 @@
 
                                 <v-btn type="submit" color="blue darken-1" text>
                                     Save
-
+                                    
                                 </v-btn>
+                                
                             </v-card-actions>
                         </v-form>
                     </v-card>
