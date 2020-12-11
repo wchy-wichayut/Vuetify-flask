@@ -1,5 +1,5 @@
 from os import error
-from flask import Flask, render_template, jsonify, request, redirect, url_for, session
+from flask import Flask, render_template, jsonify, request, redirect, url_for, session,g
 import json
 
 from flask.globals import session
@@ -31,7 +31,6 @@ app.secret_key = 'patthadonhahah'
 def index():
     return render_template('index.html')
 
-
 @app.route('/table')
 def table():
     lst = []
@@ -56,6 +55,17 @@ def table():
     return jsonify(data)
 
 
+@app.before_request
+def before_request():
+    if 'user_id' in session:
+        user = session['user_id']['displayName']
+        g.user = user
+        
+    else:
+        g.user = None
+        
+    
+
 @app.route('/login', methods=['GET',"POST"])
 def login():
     
@@ -72,12 +82,15 @@ def login():
             data = {'firstname':firstname, 'lastname':lastname, 'email':user.email, 
             'username':user.display_name,'userToken': user.uid, 'password':password}
             db.child('signup').push(data)
-            return jsonify({'user':'success'})
+            return redirect(url_for(login))
+            # 
         except:
             return render_template('login.html')
+            # return jsonify({'signup':'error'})
+            
 
    
-        
+       
     
 
 
@@ -86,11 +99,13 @@ def logtwo():
     if request.method == 'POST':
         email = request.form['email']
         pword = request.form['password']
-        try:
-            pb.auth().sign_in_with_email_and_password(email,pword)
-            return redirect(url_for('index'))
-        except:
-            return render_template('login.html')
+        session.pop('user_id', None)
+        user = pb.auth().sign_in_with_email_and_password(email,pword)
+        session['user_id'] = user
+        print(session)
+        return redirect(url_for('index'))
+        # jsonify({'signup': dict(session)})
+         
 
 
 @app.route('/forgot', methods=["GET", 'POST'])
@@ -106,11 +121,11 @@ def forgot():
     
         
 
-# @app.route('/logout')
-# def logout():
-#     session.pop('hhname', None)
-#     session.pop('ssword', None)
-#     return redirect(url_for('lg'))
+@app.route('/logout')
+def logout():
+    session.clear()
+    print(session)
+    return redirect(url_for('login'))
 
 
 # @app.route('/key', methods=["POST"])
