@@ -287,24 +287,24 @@
             close() {
                 this.dialog = false
                 this.$nextTick(() => {
-                    this.editItem = Object.assign({}, this.defualtItem)
+                    this.editedItem = Object.assign({}, this.defualtItem)
                     this.editedIndex = -1
                 })
             },
             closeDelete() {
                 this.dialogDelete = false
                 this.$nextTick(() => {
-                    this.editItem = Object.assign({}, this.defualtItem)
+                    this.editedItem = Object.assign({}, this.defualtItem)
                     this.editedIndex = -1
                 })
             },
             save() {
                 if (this.editedIndex > -1) {
-                    let changedPointer = Object.assign(this.transaction[this.editedIndex], this.editItem)
+                    let changedPointer = Object.assign(this.transaction[this.editedIndex], this.editedItem)
                     this.updateData(changedPointer, changedPointer.key)
                 } else {
-                    this.addData(this.editItem)
-                    console.log(this.editItem)
+                    this.addData(this.editedItem)
+                    console.log(this.editedItem)
                 }
                 this.close()
             },
