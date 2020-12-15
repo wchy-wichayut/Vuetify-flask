@@ -1,0 +1,69 @@
+{% extends "main/homepageLayout.html" %}
+{% block content %}
+
+<div id="login">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div id="demo" class="col-lg-6 d-none d-lg-block carousel slide" data-ride="carousel">
+                                <ul class="carousel-indicators">
+                                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                                    <li data-target="#demo" data-slide-to="1"></li>
+                                    <li data-target="#demo" data-slide-to="2"></li>
+                                </ul>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img height="315" width="450"
+                                            src="{{ url_for('static',filename='img/1.jpg')}}" />
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img height="315" width="450"
+                                            src="{{ url_for('static',filename='img/3.jpg')}}" />
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img height="315" width="450"
+                                            src="{{ url_for('static',filename='img/2.jpg')}}" />
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </a>
+                                <a class="carousel-control-next" href="#demo" data-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </a>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">LINE BOT MANGO</h1>
+                                    </div>
+                                    <a href="/lg/new">
+                                        <button class="btn btn-success btn-user btn-block" data-toggle="tooltip"
+                                            title="New Customers" type="submit">
+                                            Sign In
+                                        </button>
+                                    </a>
+                                    <br />
+                                    <a href="/lg/old">
+                                        <button class="btn btn-success btn-user btn-block" data-toggle="tooltip1"
+                                            title="Old Customers" type="submit">
+                                            Sign Up
+                                        </button>
+                                    </a>
+                                    <p class="text-danger"></p>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

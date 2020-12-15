@@ -1,0 +1,227 @@
+{% extends "layoutDemo.html" %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div id='app'>
+    <v-app id="inspire">
+        <template>
+            <v-data-table :headers="headers" :items="chatbot_transactions" sort-by="index" class="elevation-4">
+                <template v-slot:top>
+                    <v-toolbar flat>
+                        <v-toolbar-title>Chatbot</v-toolbar-title>
+                        <v-divider class="mx-4" inset vertical></v-divider>
+                        <v-spacer></v-spacer>
+                        <v-dialog v-model="dialog" max-width="500px">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
+                                    New Item
+                                </v-btn>
+                            </template>
+                            <v-card>
+                                <v-card-title>
+                                    <span class="headline">[[ formTitle ]]</span>
+                                </v-card-title>
+
+                                <v-card-text>
+                                    <v-container>
+                                        <v-row>
+                                            <v-col cols="12" sm="6" md="4">
+                                                <v-text-field v-model="editedItem.index" label="Index"></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="4">
+                                                <v-text-field label="Image">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="4">
+                                                <v-text-field v-model="editedItem.message" label="Message">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="4">
+                                                <v-text-field v-model="editedItem.reply" label="Reply"></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-container>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="blue darken-1" text @click="close">
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn color="blue darken-1" text @click="save">
+                                        Save
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                        <v-dialog v-model="dialogDelete" max-width="500px">
+                            <v-card>
+                                <v-card-title class="headline">Are you sure to delete this item?</v-card-title>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                                    <v-btn color="blue darken-1" text @click="deleteItemConfirm">Delete</v-btn>
+                                    <v-spacer></v-spacer>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    </v-toolbar>
+                </template>
+                <template v-slot:item.img="{ item }">
+                    <v-avatar>
+                        <img :src="item.img">
+                    </v-avatar>
+                </template>
+                <template v-slot:item.actions="{ item }">
+                    <v-icon small class="mr-2" @click="editItem(item)">
+                        mdi-pencil
+                    </v-icon>
+                    <v-icon small @click="deleteItem(item)">
+                        mdi-delete
+                    </v-icon>
+                </template>
+                <template v-slot:no-data>
+                    <v-btn color="primary" @click="createTable">
+                        Reset
+                    </v-btn>
+                </template>
+            </v-data-table>
+        </template>
+    </v-app>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        data: () => ({
+            dialog: false,
+            dialogDelete: false,
+            headers: [
+                { text: 'Index', value: 'index' },
+                { text: 'Image', value: 'img' },
+                { text: 'Message', value: 'message' },
+                { text: 'Reply', value: 'reply' },
+                { text: 'Date/Time', value: 'date_time' },
+                { text: 'Actions', value: 'actions', sortable: false },
+            ],
+            chatbot_transactions: [],
+            editedIndex: -1,
+            editedItem: {
+                key: '',
+                message: '',
+                rep: '',
+            },
+            defaultItem: {
+                index: null,
+                img: '',
+                message: '',
+                rep: '',
+            },
+        }),
+
+        computed: {
+            formTitle() {
+                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+            },
+        },
+
+        watch: {
+            dialog(val) {
+                val || this.close()
+            },
+            dialogDelete(val) {
+                val || this.closeDelete()
+            },
+        },
+
+        created() {
+            this.createTable()
+        },
+        delimiters: ["[[", "]]"],
+        methods: {
+            createTable() {
+                const path = '/chatbotTable';
+                axios.get(path)
+                    .then((res) => {
+                        let response = this.chatbot_transactions = res.data.ref;
+                        console.log(response)
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    })
+            },
+            editItem(item) {
+                this.editedIndex = this.chatbot_transactions.indexOf(item)
+                this.editedItem = Object.assign({}, item)
+                this.dialog = true
+            },
+
+            deleteItem(item) {
+                this.editedIndex = this.chatbot_transactions.indexOf(item)
+                this.editedItem = Object.assign({}, item)
+                this.dialogDelete = true
+            },
+
+            deleteItemConfirm() {
+                this.chatbot_transactions.splice(this.editedIndex, 1)
+                console.log(this.editedItem.key)
+                this.deleteIndex(this.editedItem.id)
+                this.closeDelete()
+            },
+
+            close() {
+                this.dialog = false
+                this.$nextTick(() => {
+                    this.editedItem = Object.assign({}, this.defaultItem)
+                    this.editedIndex = -1
+                })
+            },
+
+            closeDelete() {
+                this.dialogDelete = false
+                this.$nextTick(() => {
+                    this.editedItem = Object.assign({}, this.defaultItem)
+                    this.editedIndex = -1
+                })
+            },
+
+            save() {
+                if (this.editedIndex > -1) {
+                    let changedPointer = Object.assign(this.chatbot_transactions[this.editedIndex], this.editedItem)
+                    console.log(changedPointer)
+                    this.updateIndex(changedPointer, changedPointer.id)
+                } else {
+                    let changedPointer = this.chatbot_transactions.push(this.editedItem)
+                    console.log(changedPointer)
+                }
+                this.close()
+            },
+            updateIndex(changedPointer, id) {
+                const path = `/update/${id}`;
+                axios.post(path, changedPointer)
+                    .then((res) => {
+                        console.log(res)
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        this.createTable()
+                    })
+            },
+            deleteIndex(id) {
+                const path = `/delete/${id}`;
+                axios.post(path)
+                    .then((res) => {
+                        console.log(res)
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        this.chatbot_transactions
+                    })
+            },
+        }
+    },
+    )
+</script>
+{% endblock %}

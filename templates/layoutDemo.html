@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Mango AI</title>
+    <title>Demo Deploy Mango</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="icon" href="/static/images/meat.png" type="image/png" sizes="16x16">
     <!--    <link rel="stylesheet" href="css/custom.css">-->
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -67,15 +66,11 @@
 </head>
 
 <body class="fixed-nav sticky-footer bg-white" id="page-top">
-    <script>
-
-
-
-    </script>
-    <!-- Page Wrapper -->
     <div id="wrapper">
-        <nav class="navbar navbar-expand-lg navbar-dark  fixed-top" id="mainNav">
-            <a class="navbar-brand" href="/marketing_information">Mango Anywhere</a>
+        <nav class="navbar navbar-expand-sm navbar-dark fixed-top" id="layoutMain">
+            <a class="navbar-brand" href="/index">
+                <img src="{{ url_for('static',filename='images/2.1-Mango.png') }}" width="120" height="50">
+            </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -83,35 +78,16 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-                    <li style="margin-top: 10px; margin-right: 20px" class="nav-item" data-toggle="tooltip"
-                        data-placement="right" title="Dashboard">
-                        <i class="text-white fa fa-fw fa-user-circle" style="text-align: end"></i>
-                        <span class="nav-link-text text-white">{{ g.user }}</span>
-                    </li>
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                        <a class="nav-link" href="/information_v2">
-                            <i class="fa fa-external-link-square" aria-hidden="true"></i>
-                            <span class="nav-link-text">.V2</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                        <a class="nav-link" href="/index_new_customer">
-                            <i class="fa fa-fw fa-book"></i>
-                            <span class="nav-link-text">Intent</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                        <a class="nav-link" href="/marketing_import">
+                        <a class="nav-link" href="/index">
                             <i class="fa fa-fw fa-user"></i>
-                            <span class="nav-link-text">Information</span>
+                            <span class="nav-link-text">Table</span>
                         </a>
                     </li>
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                        <a class="nav-link" href="/graph">
-                            <i class="fa fa-fw fa-bar-chart"></i>
-                            <span class="nav-link-text">Graph</span>
-                        </a>
+                    <li style="margin-top: 10px; margin-right: 20px;  margin-left: 1120px " class="nav-item"
+                        data-toggle="tooltip" data-placement="right" title="Dashboard">
+                        <i class="text-white fa fa-fw fa-user-circle" style="text-align: end; "></i>
+                        <span class="nav-link-text text-white">{{ g.user }}</span>
                     </li>
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                         <a class="nav-link" href="/logout">
@@ -119,15 +95,9 @@
                             <span class="nav-link-text">Logout</span>
                         </a>
                     </li>
-
-
                 </ul>
             </div>
         </nav>
-
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content" class="fixed-nav sticky-footer bg-white">
@@ -135,19 +105,16 @@
                 {% endblock %}</div>
 
         </div>
-        <!-- End of Content Wrapper -->
     </div>
-
-
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
-
 </body>
+
 <style>
-    #mainNav {
-        background-color: #2ddba1;
+    #layoutMain {
+        background-color: #ec8b4a;
     }
 </style>
 
