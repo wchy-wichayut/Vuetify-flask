@@ -15,10 +15,10 @@ app = Flask(__name__)
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/getdemo')
 def index():
 
-    return render_template('index.html')
+    return render_template('getDemo.html')
 
 
  
@@ -30,15 +30,6 @@ def index():
 #         "ref": lst[::-1]
 #     }
 #     return jsonify(data)
-
-@app.route('/json_getdemo')
-def getdemo():
-    fb = FirebaseAPI(db, "requestDemo")
-    lst = fb.tabledemo()
-    data = {
-        'ref': lst[::-1]
-    }
-    return jsonify(data)
 
 # @app.route('/update_chatbot/<id>',methods=["POST"])
 # def update_index(id):
@@ -56,7 +47,16 @@ def getdemo():
 #     db.child("chatbot_transactions").child(id).remove()
 #     return make_response(post_data)
 
-# ---------------------------------------------- #
+# ----------------GetDemo-------------------- #
+
+@app.route('/json_getdemo')
+def getdemo():
+    fb = FirebaseAPI(db, "requestDemo")
+    lst = fb.tabledemo()
+    data = {
+        'ref': lst[::-1]
+    }
+    return jsonify(data)
 
 @app.route('/update_getdemo/<id>',methods=["POST"])
 def update_index(id):
@@ -74,6 +74,32 @@ def delete_index(id):
     db.child("requestDemo").child(id).remove()
     return make_response(post_data)
 
+# ----------------Contract-------------------- #
+
+@app.route('/json_contact')
+def contract():
+    fb = FirebaseAPI(db, "requestContract")
+    lst = fb.tablecontact()
+    data = {
+        'ref': lst[::-1]
+    }
+    return jsonify(data)
+
+@app.route('/update_contact/<id>',methods=["POST"])
+def update_index(id):
+    post_data = request.get_json()
+    print(id)
+    print(post_data)
+    db.child('requestDemo').child(id).update(post_data)
+    return make_response(post_data)
+
+@app.route('/delete_contact/<id>',methods=["POST"])
+def delete_index(id):
+    post_data = request.get_json()
+    print(id)
+    print(post_data)
+    db.child("requestDemo").child(id).remove()
+    return make_response(post_data)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
