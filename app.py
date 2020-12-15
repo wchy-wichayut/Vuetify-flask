@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask.helpers import make_response
 import pyrebase
 import json
-from oopclass import FirebaseAPI
+from oop import FirebaseAPI
 
 with open("config.json", encoding='utf 8') as json_file:
     data = json.load(json_file)
@@ -17,7 +17,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/index')
 def index():
-    
+
     return render_template('index.html')
 
 @app.route("/home")

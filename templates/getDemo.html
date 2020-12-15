@@ -185,28 +185,186 @@
             dialogDelete: false,
             selected =[],
             search = '',
-            headers: [
-                {
-                    text: 'แท็ก', align: 'start', value: 'tag',
-                },
-                { text: 'ชื่อ', value: 'Name' },
-                { text: 'ผลิตภัณฑ์', value: 'Product' },
-                { text: 'บริษัท', value: 'company' },
-                { text: 'เบอร์', value: 'tel'},
-                { text: 'อีเมล', value: 'email'},
-                { text: 'ข้อความ', value: 'msg'},
-                { text: 'วัน/เวลา', value: 'date_time'},
-                { text: 'Action', value: 'actions', sortable: false} 
-            ],
-            getinDemo = [],
+            getInDemo =[],
             editedIndex: -1,
-            editedItem:{
-                id = '',
+            editedItem: {
+                key = '',
                 name = '',
                 product = '',
-                
+                company = '',
+                tel = '',
+                email = '',
+                message = '',
+                tags =[]
+            },
+            defualtItem: {
+                key = '',
+                name = '',
+                product = '',
+                company = '',
+                tel = '',
+                email = '',
+                message = '',
+                tags =[]
             }
-        })
+        }),
+        computed: {
+            formTitle() {
+                return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+            },
+            headers() {
+                return [
+                    { text: 'แท็ก', align: 'start', value: 'tag', },
+                    { text: 'ชื่อ', value: 'Name' },
+                    { text: 'ผลิตภัณฑ์', value: 'Product' },
+                    { text: 'บริษัท', value: 'company' },
+                    { text: 'เบอร์', value: 'tel' },
+                    { text: 'อีเมล', value: 'email' },
+                    { text: 'ข้อความ', value: 'msg' },
+                    { text: 'วัน/เวลา', value: 'date_time' },
+                    { text: 'Action', value: 'actions', sortable: false }
+                ]
+            },
+        },
+        watch: {
+            dialog(val) {
+                val || this.close()
+            },
+            dialogDelete(val) {
+                val || this.closeDelete()
+            },
+            getInDemo: 'showData'
+        },
+        created() {
+            this.createInformation()
+        },
+        mounted() {
+            
+        },
+        merthods: {
+            createInformation() {
+                this.spinTable = false
+                const path = '/';
+                axios.get(path)
+                    .then((res) => {
+                        let response = this.getInDemo = res.data.getInDemo;
+                        let tags = this.tags = res.data.tags
+                        console.log('tags', tags)
+                        console.log('getInDemo', response)
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
+            },
+            onShowTag() {
+                this.showTag = !this.showTag
+            },
+            chipRemove(remove, id) {
+                let chip = remove.splice(remove.indexOf(remove),)
+                this.updateChip(chip, id)
+            },
+            sortIndex(selected) {
+                user = []
+                console.log(this.sortTag)
+                console.log(selected)
+                this.selected.forEach((data) => {
+                    user.push(data.id)
+                })
+            },
+            showData() {
+                if (this.getInDemo) {
+                    this.spinTable = true
+                }
+            },
+            loadDataInfo() {
+                this.spinTable = false;
+                this.createInformation()
+                console.log(this.spinTable)
+            },
+            editItem(item) {
+                this.editedIndex = this.getInDemo.indexOf(item)
+                this.editedItem = Object.assign({}, item)
+                this.dialog = true
+                console.log(this.editedItem)
+            },
+            deleteItemConfirm() {
+                this.getInDemo.slice(this.editedIndex, 1)
+                this.removeDate(this.editedItem.key)
+                this.closeDelete()
+            },
+            close() {
+                this.dialog = false
+                this.$nextTick(() => {
+                    this.editItem = Object.assign({}, this.defualtItem)
+                    this.editedIndex = -1
+                })
+            },
+            closeDelete() {
+                this.dialogDelete = false
+                this.$nextTick(() => {
+                    this.editItem = Object.assign({}, this.defualtItem)
+                    this.editedIndex = -1
+                })
+            },
+            save() {
+                if (this.editedIndex > -1) {
+                    let changedPointer = Object.assign(this.getInDemo[this.editedIndex], this.editItem)
+                    this.updateData(changedPointer, changedPointer.key)
+                } else {
+                    this.addData(this.editItem)
+                    console.log(this.editItem)
+                }
+                this.close()
+            },
+            SortPush(box) {
+                const path = `/json_getdemo`;
+                axios.post(path, box)
+                    .then(() => {
+                        this.createInformation();
+                        this.showLog = 'Sorting!';
+                        this.showMessage = true
+                    });
+            },
+            updateChip(chips, id) {
+
+            },
+            updateData(changedPointer, id) {
+                const path = `/update_getdemo/${id}`;
+                axios.post(path, changedPointer)
+                    .then(() => {
+                        this.showLog = 'Data updated!!';
+                        this.showMessage = true
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        this.createInformation()
+                    })
+            },
+            removeData(id) {
+                const path = `/delete_getdemo/${id}`
+                axios.post(path)
+                    .then(() => {
+                        console.log(path)
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    })
+            }, addData(changedPointer) {
+                const path = '/json_getdemo'
+                axios.post(path, changedPointer)
+                    .then(() => {
+                        console.log(changedPointer)
+                        this.createInformation()
+                        this.showMessage = true
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        this.createInformation()
+                    })
+            },
+        },
+        delimiter: ["[[", "]]"]
+
     })
 </script>
 
