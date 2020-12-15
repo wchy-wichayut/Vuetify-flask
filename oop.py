@@ -51,4 +51,27 @@ class FirebaseAPI:
             count += 1
         return lst
 
+    def tablecontact(self):
+        lst = []
+        count = 1
+        ref = self.db.child(self.transaction).get()
+        for i in ref.each()[1:]:
+            r = i.val()
+            date = r['Date']
+            time = r['Time']
+            ctemail = r['event']['contact_email']
+            ctemaildiv = r['event']['contact_email_div']
+            ctmessage = r['event']['contact_message']
+            ctname = r['event']['contact_name']
+            ctnamecompany = r['event']['contact_name_company']
+            ctsubject = r['event']['contact_subject']
+            cttel = r['event']['contact_tel']
+            tag = r['tag']
+            key = i.key()
+            box = {'date/time':f'{date} {time}', 'contact_email':ctemail, 'contact_email_div':ctemaildiv, 'contact_message':ctmessage,
+                    'contact_name':ctname, 'contact_name_company':ctnamecompany, 'contact_subject':ctsubject,
+                    'contact_tel': cttel, 'tag':tag, 'key':key, 'index':count}
+            lst.append(box)
+            count += 1
+        return lst
 
