@@ -1,12 +1,12 @@
 {% extends "layoutDemo.html" %}
 {% block content %}
 
-<br><br><br>
+<br><br><br><br>
 <div id="app">
     <v-app id="inspire">
-        <v-container fluid>
-            <v-data-table v-model="selected" :single-select="singleSelect" show-select :search="search"
-                :headers="headers" :items="transaction" sort-by="calories" class="elevation-2">
+        <div class="container-fluid">
+            <v-data-table v-model="selected" show-select :search="search" :headers="headers" :items="transaction"
+                sort-by="calories" class="elevation-2">
                 <template v-slot:item.Tag="{ item }">
                     <div v-for="tag in item.Tag">
                         <div v-if="tag">
@@ -30,7 +30,7 @@
                         <v-tabs dark background-color="success">
                             <v-tab>
                                 <a href="/information_V2">
-                                    <v-badge color="blue" :content="amountInfo">
+                                    <v-badge color="blue">
                                         ข้อมูลลูกค้า
                                     </v-badge>
                                 </a>
@@ -38,14 +38,14 @@
 
                             <v-tab>
                                 <a href="/marketing_import">
-                                    <v-badge color="blue" :content="amountImport" class="text-white">
+                                    <v-badge color="blue" class="text-white">
                                         นำเข้า
                                     </v-badge>
                                 </a>
                             </v-tab>
 
                             <v-tab>
-                                <v-badge class="text-white" :content="amountDemo" color="blue">
+                                <v-badge class="text-white" color="blue">
                                     นัดDemo
                                 </v-badge>
                             </v-tab>
@@ -64,15 +64,9 @@
                         <v-btn style="margin-left: 10px" elevation="3" medium small color="success"
                             @click="sortIndex(selected)"><i class="fas fa-user-tag"></i>Index Sorting
                         </v-btn>
-                        {#                <v-switch#}
-                        {#                    v-model="singleSelect"#}
-                        {#                    label="Single select"#}
-                        {#                    class="pa-3"#}
-                        {#                ></v-switch>#}
+
                         <v-spacer></v-spacer>
-                        <div class="small" style="margin-left: 10px; margin-top: 25px; margin-right: 20px">
-                            <v-select v-model="sortTag" :items="tags" chips multiple label="Tags"></v-select>
-                        </div>
+
                         <div class="small">
                             <v-text-field v-model="search" label="Search" single-line hide-details></v-text-field>
                         </div>
@@ -94,36 +88,31 @@
                                     <v-container>
                                         <v-row>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.Name" label="Name"></v-text-field>
+                                                <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.Product" label="Product">
+                                                <v-text-field v-model="editedItem.product" label="Product">
                                                 </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.Company" label="Company">
+                                                <v-text-field v-model="editedItem.company" label="Company">
                                                 </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.Tel" label="Tel"></v-text-field>
+                                                <v-text-field v-model="editedItem.tel" label="Tel"></v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.Email" label="Email">
+                                                <v-text-field v-model="editedItem.email" label="Email">
                                                 </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.Message" label="Message">
+                                                <v-text-field v-model="editedItem.message" label="Message">
                                                 </v-text-field>
 
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.Channel" label="Channel">
+                                                <v-text-field v-model="editedItem.channel" label="Channel">
                                                 </v-text-field>
-                                            </v-col>
-
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-autocomplete v-model="editedItem.Tag" :items="tags" outlined dense
-                                                    chips small-chips label="Tags" multiple></v-autocomplete>
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -170,9 +159,8 @@
                         Reset
                     </v-btn>
                 </template>
-
             </v-data-table>
-        </v-container>
+        </div>
     </v-app>
 </div>
 
@@ -183,29 +171,29 @@
         data: () => ({
             dialog: false,
             dialogDelete: false,
-            selected =[],
-            search = '',
-            getInDemo =[],
+            selected: [],
+            search: '',
+            transaction: [],
             editedIndex: -1,
             editedItem: {
-                key = '',
-                name = '',
-                product = '',
-                company = '',
-                tel = '',
-                email = '',
-                message = '',
-                tags =[]
+                key: '',
+                name: '',
+                product: '',
+                company: '',
+                tel: '',
+                email: '',
+                message: '',
+
             },
             defualtItem: {
-                key = '',
-                name = '',
-                product = '',
-                company = '',
-                tel = '',
-                email = '',
-                message = '',
-                tags =[]
+                key: '',
+                name: '',
+                product: '',
+                company: '',
+                tel: '',
+                email: '',
+                message: '',
+
             }
         }),
         computed: {
@@ -215,13 +203,13 @@
             headers() {
                 return [
                     { text: 'แท็ก', align: 'start', value: 'tag', },
-                    { text: 'ชื่อ', value: 'Name' },
-                    { text: 'ผลิตภัณฑ์', value: 'Product' },
+                    { text: 'ชื่อ', value: 'fname' },
+                    { text: 'ผลิตภัณฑ์', value: 'product' },
                     { text: 'บริษัท', value: 'company' },
                     { text: 'เบอร์', value: 'tel' },
                     { text: 'อีเมล', value: 'email' },
-                    { text: 'ข้อความ', value: 'msg' },
-                    { text: 'วัน/เวลา', value: 'date_time' },
+                    { text: 'ข้อความ', value: 'message' },
+                    { text: 'วัน/เวลา', value: 'date/time' },
                     { text: 'Action', value: 'actions', sortable: false }
                 ]
             },
@@ -233,24 +221,22 @@
             dialogDelete(val) {
                 val || this.closeDelete()
             },
-            getInDemo: 'showData'
+            transaction: 'showData'
         },
         created() {
             this.createInformation()
         },
         mounted() {
-            
+
         },
-        merthods: {
+        methods: {
             createInformation() {
                 this.spinTable = false
-                const path = '/';
+                const path = '/json_getdemo';
                 axios.get(path)
                     .then((res) => {
-                        let response = this.getInDemo = res.data.getInDemo;
-                        let tags = this.tags = res.data.tags
-                        console.log('tags', tags)
-                        console.log('getInDemo', response)
+                        let response = this.transaction = res.data.ref;
+                        console.log(response)
                     })
                     .catch((err) => {
                         console.error(err);
@@ -265,14 +251,13 @@
             },
             sortIndex(selected) {
                 user = []
-                console.log(this.sortTag)
                 console.log(selected)
                 this.selected.forEach((data) => {
                     user.push(data.id)
                 })
             },
             showData() {
-                if (this.getInDemo) {
+                if (this.transaction) {
                     this.spinTable = true
                 }
             },
@@ -282,13 +267,13 @@
                 console.log(this.spinTable)
             },
             editItem(item) {
-                this.editedIndex = this.getInDemo.indexOf(item)
+                this.editedIndex = this.transaction.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
                 console.log(this.editedItem)
             },
             deleteItemConfirm() {
-                this.getInDemo.slice(this.editedIndex, 1)
+                this.transaction.slice(this.editedIndex, 1)
                 this.removeDate(this.editedItem.key)
                 this.closeDelete()
             },
@@ -308,7 +293,7 @@
             },
             save() {
                 if (this.editedIndex > -1) {
-                    let changedPointer = Object.assign(this.getInDemo[this.editedIndex], this.editItem)
+                    let changedPointer = Object.assign(this.transaction[this.editedIndex], this.editItem)
                     this.updateData(changedPointer, changedPointer.key)
                 } else {
                     this.addData(this.editItem)
@@ -362,10 +347,13 @@
                         this.createInformation()
                     })
             },
+            sortProduct(value) {
+                this.search = value
+            },
         },
         delimiter: ["[[", "]]"]
 
     })
 </script>
 
-{% blockend %}
+{% endblock %}
