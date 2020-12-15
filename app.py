@@ -71,7 +71,8 @@ def update_getdemo(id):
     return make_response(post_data)
 
 @app.route('/delete_getdemo/<id>',methods=["POST"])
-def delete_getdemo(id):
+
+def delete_getdomo(id):
     post_data = request.get_json()
     print(id)
     print(post_data)
@@ -90,7 +91,7 @@ def contract():
     return jsonify(data)
 
 @app.route('/update_contact/<id>',methods=["POST"])
-def update_index(id):
+def update_contact(id):
     post_data = request.get_json()
     print(id)
     print(post_data)
@@ -98,7 +99,7 @@ def update_index(id):
     return make_response(post_data)
 
 @app.route('/delete_contact/<id>',methods=["POST"])
-def delete_index(id):
+def delete_contact(id):
     post_data = request.get_json()
     print(id)
     print(post_data)
