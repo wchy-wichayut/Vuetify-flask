@@ -45,16 +45,16 @@
                             </v-tab>
 
                             <v-tab>
-                                <v-badge class="text-white" color="blue">
-                                    นัดDemo
-                                </v-badge>
-                            </v-tab>
-                            <v-tab>
-                                <a href="/getContact">
+                                <a href="/getDemo">
                                     <v-badge class="text-white" color="blue">
-                                        Contact
+                                        นัดDemo
                                     </v-badge>
                                 </a>
+                            </v-tab>
+                            <v-tab>
+                                <v-badge class="text-white" color="blue">
+                                    Contact
+                                </v-badge>
                             </v-tab>
                         </v-tabs>
                     </v-toolbar>
@@ -95,32 +95,35 @@
                                     <v-container>
                                         <v-row>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.product" label="Product">
+                                                <v-text-field v-model="editedItem.contact_name" label="ชื่อ">
                                                 </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.company" label="Company">
+                                                <v-text-field v-model="editedItem.contact_subject"
+                                                    label="ชื่อผลิตภัณฑ์">
                                                 </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.tel" label="Tel"></v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.email" label="Email">
+                                                <v-text-field v-model="editedItem.contact_name_company" label="บริษัท">
                                                 </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.message" label="Message">
+                                                <v-text-field v-model="editedItem.contact_tel" label="เบอร์">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="4">
+                                                <v-text-field v-model="editedItem.contact_email" label="อีเมล">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="4">
+                                                <v-text-field v-model="editedItem.contact_message" label="ข้อความ">
                                                 </v-text-field>
 
                                             </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.channel" label="Channel">
+                                            <!-- <v-col cols="12" sm="6" md="4">
+                                                <v-text-field v-model="editedItem.channel" label="ช่องทาง">
                                                 </v-text-field>
-                                            </v-col>
+                                            </v-col> -->
                                         </v-row>
                                     </v-container>
                                 </v-card-text>
@@ -184,22 +187,22 @@
             editedIndex: -1,
             editedItem: {
                 key: '',
-                name: '',
-                product: '',
-                company: '',
-                tel: '',
-                email: '',
-                message: '',
+                contact_name: '',
+                contact_product: '',
+                contact_name_company: '',
+                contact_tel: '',
+                contact_email: '',
+                contact_message: '',
 
             },
             defualtItem: {
                 key: '',
-                name: '',
-                product: '',
-                company: '',
-                tel: '',
-                email: '',
-                message: '',
+                contact_name: '',
+                contact_product: '',
+                contact_name_company: '',
+                contact_tel: '',
+                contact_email: '',
+                contact_message: '',
 
             }
         }),
@@ -210,12 +213,12 @@
             headers() {
                 return [
                     { text: 'แท็ก', align: 'start', value: 'tag', },
-                    { text: 'ชื่อ', value: 'fname' },
-                    { text: 'ผลิตภัณฑ์', value: 'product' },
-                    { text: 'บริษัท', value: 'company' },
-                    { text: 'เบอร์', value: 'tel' },
-                    { text: 'อีเมล', value: 'email' },
-                    { text: 'ข้อความ', value: 'message' },
+                    { text: 'ชื่อ', value: 'contact_name' },
+                    { text: 'ผลิตภัณฑ์', value: 'contact_subject' },
+                    { text: 'บริษัท', value: 'contact_name_company' },
+                    { text: 'เบอร์', value: 'contact_tel' },
+                    { text: 'อีเมล', value: 'contact_email' },
+                    { text: 'ข้อความ', value: 'contact_message' },
                     { text: 'วัน/เวลา', value: 'date/time' },
                     { text: 'Action', value: 'actions', sortable: false }
                 ]
@@ -239,7 +242,7 @@
         methods: {
             createInformation() {
                 this.spinTable = false
-                const path = '/json_getdemo';
+                const path = '/json_contact';
                 axios.get(path)
                     .then((res) => {
                         let response = this.transaction = res.data.ref;
@@ -274,10 +277,17 @@
                 console.log(this.spinTable)
             },
             editItem(item) {
+                console.log(this.editedIndex)
                 this.editedIndex = this.transaction.indexOf(item)
+                console.log(this.editedIndex)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
-                console.log(this.editedItem)
+
+            },
+            deleteItem(item) {
+                this.editedIndex = this.transaction.indexOf(item)
+                this.editedItem = Object.assign({}, item)
+                this.dialogDelete = true
             },
             deleteItemConfirm() {
                 this.transaction.slice(this.editedIndex, 1)
@@ -287,24 +297,24 @@
             close() {
                 this.dialog = false
                 this.$nextTick(() => {
-                    this.editItem = Object.assign({}, this.defualtItem)
+                    this.editedItem = Object.assign({}, this.defualtItem)
                     this.editedIndex = -1
                 })
             },
             closeDelete() {
                 this.dialogDelete = false
                 this.$nextTick(() => {
-                    this.editItem = Object.assign({}, this.defualtItem)
+                    this.editedItem = Object.assign({}, this.defualtItem)
                     this.editedIndex = -1
                 })
             },
             save() {
                 if (this.editedIndex > -1) {
-                    let changedPointer = Object.assign(this.transaction[this.editedIndex], this.editItem)
+                    let changedPointer = Object.assign(this.transaction[this.editedIndex], this.editedItem)
                     this.updateData(changedPointer, changedPointer.key)
                 } else {
-                    this.addData(this.editItem)
-                    console.log(this.editItem)
+                    this.addData(this.editedItem)
+                    console.log(this.editedItem)
                 }
                 this.close()
             },
@@ -341,7 +351,8 @@
                     .catch((err) => {
                         console.error(err)
                     })
-            }, addData(changedPointer) {
+            }, 
+            addData(changedPointer) {
                 const path = '/json_getdemo'
                 axios.post(path, changedPointer)
                     .then(() => {

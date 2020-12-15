@@ -17,10 +17,13 @@ app = Flask(__name__)
 
 @app.route('/')
 @app.route('/getdemo')
-def index():
+def getDemo():
 
     return render_template('getDemo.html')
 
+@app.route('/getContact')
+def getContact():
+   return render_template('getContact.html')
 
  
 # @app.route('/json_chatbot')
@@ -60,7 +63,7 @@ def getdemo():
     return jsonify(data)
 
 @app.route('/update_getdemo/<id>',methods=["POST"])
-def update_index(id):
+def update_getdemo(id):
     post_data = request.get_json()
     print(id)
     print(post_data)
@@ -68,7 +71,7 @@ def update_index(id):
     return make_response(post_data)
 
 @app.route('/delete_getdemo/<id>',methods=["POST"])
-def delete_index(id):
+def delete_getdemo(id):
     post_data = request.get_json()
     print(id)
     print(post_data)
