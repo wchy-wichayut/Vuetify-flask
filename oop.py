@@ -33,7 +33,7 @@ class FirebaseAPI:
         lst = []
         count = 1
         ref = self.db.child(self.transaction).get()
-        for i in ref.each()[62:]:
+        for i in ref.each():
             r = i.val()
             date = r['Date']
             time = r['Time']
@@ -46,7 +46,7 @@ class FirebaseAPI:
             tag = r['tag']
             key = i.key()
             box = {'date/time': f'{date} {time}', 'company':company, 'email':email,
-                'fname':fname, 'message': message,'product':product, 'tel':tel, 'tag':tag, 'key':key}
+                'fname':fname, 'message': message,'product':product, 'tel':tel, 'tag':tag, 'key':key, 'index':count}
             lst.append(box)
             count += 1
         return lst
