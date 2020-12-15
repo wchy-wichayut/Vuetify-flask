@@ -18,10 +18,11 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/getdemo')
 def index():
-
     return render_template('getDemo.html')
 
-
+@app.route('/getcontact')
+def index():
+    return render_template('getContact.html')
  
 # @app.route('/json_chatbot')
 # def chatbot():
