@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 @app.route('/')
 @app.route('/getdemo')
-def getDemo():
+def indexDemo():
 
     return render_template('getDemo.html')
 
@@ -67,8 +67,19 @@ def update_getdemo(id):
     post_data = request.get_json()
     print(id)
     print(post_data)
-    db.child('requestDemo').child(id).update(post_data)
-    return make_response(post_data)
+    # date = post_data['Date']
+    # time = post_data['Time']
+    # company = post_data['company']
+    # email = post_data['email']
+    # fname = post_data['fname']
+    # message = post_data['massage']
+    # product = post_data['product']
+    # tel = post_data['tel']
+    # tag = post_data['tag']
+    group = {'Date': post_data['Date'],'Time':post_data['Time'], 'event':{'company':post_data['company'], 'email':post_data['email'], 'fname':post_data['fname'], 'message':post_data['message'],
+     'product':post_data['product'], 'tel':post_data['tel']},'tag':post_data['tag']}
+    # db.child('requestDemo').child(id).update(group)
+    return make_response(group)
 
 @app.route('/delete_getdemo/<id>',methods=["POST"])
 
@@ -95,8 +106,11 @@ def update_contact(id):
     post_data = request.get_json()
     print(id)
     print(post_data)
-    db.child('requestDemo').child(id).update(post_data)
-    return make_response(post_data)
+    group = {'Date': post_data['Date'],'Time':post_data['Time'], 
+        'event':{'contact_email':post_data['contact_email'], 'contact_email_div':post_data['contact_email_div'], 'contact_message':post_data['contact_message'], 'contact_name':post_data['contact_name'],
+        'contact_name_company':post_data['contact_name_company'],'contact_subject':post_data['contact_subject'], 'contact_tel':post_data['contact_tel']},'tag':post_data['tag']}
+    db.child('requestContract').child(id).update(group)
+    return make_response(group)
 
 @app.route('/delete_contact/<id>',methods=["POST"])
 def delete_contact(id):

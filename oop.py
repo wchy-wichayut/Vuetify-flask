@@ -46,9 +46,10 @@ class FirebaseAPI:
             tag = r['tag']
             key = i.key()
             box = {'date/time': f'{date} {time}', 'company':company, 'email':email,
-                'fname':fname, 'message': message,'product':product, 'tel':tel, 'tag':tag, 'key':key, 'index':count}
+                'fname':fname, 'message': message,'product':product, 'tel':tel,
+                 'tag':tag, 'key':key, 'index':count,'Date':date,"Time":time}
             lst.append(box)
-            count += 1
+            count += 1 
         return lst
 
     def tablecontact(self):
@@ -70,7 +71,7 @@ class FirebaseAPI:
             key = i.key()
             box = {'date/time':f'{date} {time}', 'contact_email':ctemail, 'contact_email_div':ctemaildiv, 'contact_message':ctmessage,
                     'contact_name':ctname, 'contact_name_company':ctnamecompany, 'contact_subject':ctsubject,
-                    'contact_tel': cttel, 'tag':tag, 'key':key, 'index':count}
+                    'contact_tel': cttel, 'tag':tag, 'key':key, 'index':count,'Date':date,"Time":time}
             lst.append(box)
             count += 1
         return lst
