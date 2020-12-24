@@ -1,124 +1,118 @@
 {% extends "layoutDemo.html" %}
 {% block content %}
-
-
-<br><br><br>
-<br><br><br>
+<br><br>
 <div id="app">
-    <v-app id="inspire">
-        <v-row justify="center">
-            <v-container>
-                <h2>[[name]]</h2>
-                <h2>[[email]]</h2>
-                <h2>[[userId]]</h2>
-                <v-form v-model="valid"
-                        ref="form"
-                >
+  <v-app id="inspire">
+    <v-row justify="center">
+      <v-container>
 
-                <v-img
-                lazy-src="https://picsum.photos/id/11/10/6"
-                max-height="150"
-                max-width="250"
-                :src="img"
-              ></v-img>
+        <h2>[[name]]</h2>
+        <p>[[token]]</p>
+        <p>[[userId]]</p>
+        <v-img :src="img" max-height="500px" max-width="300px">
+        </v-img>
 
-                    <v-text-field label="Firstname"
-                                :rules="validFname"
-                                type="text"
-                                v-model="formCatch.fname" 
-                                outlined 
-                                required
-                                ></v-text-field>
+        <br>
+        <!-- [[valid]] -->
+        <v-form v-model="valid" ref="form">
+          <v-text-field label="Firstname" :rules="validFname" type="text" v-model="formCatch.fname" outlined required>
+          </v-text-field>
 
-                    <v-text-field label="Lastname"
-                                :rules="validLname"
-                                type="text" 
-                                v-model="formCatch.lname" 
-                                outlined 
-                                required
-                                ></v-text-field>
+          <v-text-field label="Lastname" :rules="validLname" type="text" v-model="formCatch.lname" outlined required>
+          </v-text-field>
 
-                    <v-btn 
-                            color="success" 
-                            @click="validate"
-                            >submit</v-btn>
+          <v-btn color="success" :disabled="!valid" @click="validate">submit
+          </v-btn>
 
-                            <v-btn 
-                            color="success" 
-                            @click="onshow"
-                            >Show</v-btn>
-                </v-form>
-            </v-container>
-        </v-row>
-    </v-app>
+          <v-btn color="success" @click="onShow">Surpirse!
+          </v-btn>
+
+        </v-form>
+      </v-container>
+    </v-row>
+  </v-app>
 </div>
 
 
-
 <script>
-    new Vue({
-        el: "#app",
-        vuetify: new Vuetify(),
-        data: () => ({
-            validFname: [v => !!v || 'Please Input Firstname'],
-            validLname: [v => !!v || 'Please Input Lastname'],
-            formCatch: {
-                fname: '',
-                lname: ''
-            },
-            valid: false,
-            img: null,
-            name: null,
-            email:null,
-            userId:null
-        }),
-        created(){
-          liff.init({liffId: "1655451473-oxKPGE4n"}, () => {
-            if (liff.isLoggedIn()){
-                
-            }else{
-              liff.login();
-            }
-          }, err => console.error(err.code, error.message));
-        },
-        methods: {
-            onshow(){
-              liff.getProfile()
-                    .then(profile => {
-                      this.img = profile.pictureUrl
-                      this.name =profile.displayName
-                      this.email = liff.getDecodedIDToken().email
-                      this.userId = profile.userId
-                    })
-            },
+  new Vue({
+    el: "#app",
+    vuetify: new Vuetify(),
+    data: () => ({
+      validFname: [v => !!v || 'Please Input Firstname'],
+      validLname: [v => !!v || 'Please Input Lastname'],
+      formCatch: {
+        fname: '',
+        lname: ''
+      },
+      valid: false,
+      img: null,
+      name: null,
+      token: null,
+      userId: null
+    }),
+    created() {
+      liff.init({ liffId: "1655451474-ApMmeaEr" }, () => { //get Id line liff
+        if (liff.isLoggedIn()) {
 
-            validate(){
-                let set = this.$refs.form.validate() //refs = 'id" on JS 
-                if (set == true) {
-                  console.log(this.formCatch.fname)
-                  console.log(this.formCatch.lname)
-                }
-                else{
-                  console.log('error')
-                }
-            },
-            sendData(data){
-              const path = "/test"
-              axios.post(path, data)
-                .then(() => {
-                  this.popUp()
-                  console.log('success')
-                })
-                .catch((error) => {
-                  console.error(error)
-                })
-            },
-            popUp(){
-              Swal.fire("ข้อมูลบันทึกแล้ว","sdfsdfds","success")
-            }
-        },
-        delimiters:["[[","]]"]
-    })
+        }
+        else {
+          liff.login()
+        }
+      }, err => console.error(err.code, error.message))
+    },
+    methods: {
+      onShow() { //get data from profile
+        liff.getProfile()
+          .then(profile => {
+            this.img = profile.pictureUrl
+            this.name = profile.displayName
+            this.userId = profile.userId
+            this.token = liff.getDecodedIDToken().email
+          })
+      },
+      validate() {
+        let set = this.$refs.form.validate() //refs = 'id" on JS 
+        if (set === true) {
+          liff.getProfile()
+            .then(profile => {
+              this.img = profile.pictureUrl
+              this.name = profile.displayName
+              this.userId = profile.userId
+              this.token = liff.getDecodedIDToken().email
+
+              let dict = {
+                firstname: this.formCatch.fname, lastname: this.formCatch.lname,
+                image: this.img, name: this.name, userId: this.userId, token: this.token
+              }
+              //combine Attr(post data to json for backend) to dict 
+              this.sendData(dict)//set func sendData(Mapping Attr on 'dict' with 'data' on func sendData) 
+              console.log(dict)
+            })
+
+
+        }
+        else {
+          console.log('error')
+        }
+      },
+      sendData(data) { //send Axios with path to post json to Back end
+        const path = '/sdata'
+        axios.post(path, data) //(post to path, with data on func)
+          .then(() => {
+            this.popUp()
+            console.log('Success')
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      },
+      popUp() {
+        Swal.fire("Complete!", "Authority get your Information\nWe'll contact to you later. thank u", "success")
+      }
+    },
+    delimiters: ["[[", "]]"]
+  })
 </script>
 
 {% endblock %}
