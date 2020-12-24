@@ -4,6 +4,7 @@ import pyrebase
 import json
 from oop import FirebaseAPI
 
+
 with open("config.json", encoding='utf 8') as json_file:
     data = json.load(json_file)
     config = data["firebase"]
@@ -16,9 +17,8 @@ app = Flask(__name__)
 
 
 @app.route('/')
-@app.route('/getdemo')
+@app.route('/getDemo')
 def indexDemo():
-
     return render_template('getDemo.html')
 
 @app.route('/getContact')
@@ -119,6 +119,15 @@ def delete_contact(id):
     print(post_data)
     db.child("requestDemo").child(id).remove()
     return make_response(post_data)
+
+# -----------------Chat Bot----------------- #
+@app.route('/webhook')
+def webhook():
+   return 'ok'
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
