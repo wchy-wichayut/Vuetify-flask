@@ -1,0 +1,124 @@
+{% extends "layoutDemo.html" %}
+{% block content %}
+
+
+<br><br><br>
+<br><br><br>
+<div id="app">
+    <v-app id="inspire">
+        <v-row justify="center">
+            <v-container>
+                <h2>[[name]]</h2>
+                <h2>[[email]]</h2>
+                <h2>[[userId]]</h2>
+                <v-form v-model="valid"
+                        ref="form"
+                >
+
+                <v-img
+                lazy-src="https://picsum.photos/id/11/10/6"
+                max-height="150"
+                max-width="250"
+                :src="img"
+              ></v-img>
+
+                    <v-text-field label="Firstname"
+                                :rules="validFname"
+                                type="text"
+                                v-model="formCatch.fname" 
+                                outlined 
+                                required
+                                ></v-text-field>
+
+                    <v-text-field label="Lastname"
+                                :rules="validLname"
+                                type="text" 
+                                v-model="formCatch.lname" 
+                                outlined 
+                                required
+                                ></v-text-field>
+
+                    <v-btn 
+                            color="success" 
+                            @click="validate"
+                            >submit</v-btn>
+
+                            <v-btn 
+                            color="success" 
+                            @click="onshow"
+                            >Show</v-btn>
+                </v-form>
+            </v-container>
+        </v-row>
+    </v-app>
+</div>
+
+
+
+<script>
+    new Vue({
+        el: "#app",
+        vuetify: new Vuetify(),
+        data: () => ({
+            validFname: [v => !!v || 'Please Input Firstname'],
+            validLname: [v => !!v || 'Please Input Lastname'],
+            formCatch: {
+                fname: '',
+                lname: ''
+            },
+            valid: false,
+            img: null,
+            name: null,
+            email:null,
+            userId:null
+        }),
+        created(){
+          liff.init({liffId: "1655451473-oxKPGE4n"}, () => {
+            if (liff.isLoggedIn()){
+                
+            }else{
+              liff.login();
+            }
+          }, err => console.error(err.code, error.message));
+        },
+        methods: {
+            onshow(){
+              liff.getProfile()
+                    .then(profile => {
+                      this.img = profile.pictureUrl
+                      this.name =profile.displayName
+                      this.email = liff.getDecodedIDToken().email
+                      this.userId = profile.userId
+                    })
+            },
+
+            validate(){
+                let set = this.$refs.form.validate() //refs = 'id" on JS 
+                if (set == true) {
+                  console.log(this.formCatch.fname)
+                  console.log(this.formCatch.lname)
+                }
+                else{
+                  console.log('error')
+                }
+            },
+            sendData(data){
+              const path = "/test"
+              axios.post(path, data)
+                .then(() => {
+                  this.popUp()
+                  console.log('success')
+                })
+                .catch((error) => {
+                  console.error(error)
+                })
+            },
+            popUp(){
+              Swal.fire("ข้อมูลบันทึกแล้ว","sdfsdfds","success")
+            }
+        },
+        delimiters:["[[","]]"]
+    })
+</script>
+
+{% endblock %}
