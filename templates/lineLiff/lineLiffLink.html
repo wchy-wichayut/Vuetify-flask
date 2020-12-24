@@ -1,0 +1,149 @@
+{% extends "/lineLiff/liffLayout.html" %}
+{% block content %}
+<br>
+<div id="app">
+    <v-app id="inspire">
+        <v-row justify="center">
+            <v-container>
+                <center>
+                    <v-img src="\static\images\gavin.jpg" max-height="500px" max-width="300px">
+                    </v-img>
+                </center>
+                <br>
+                <v-form v-model="valid" ref="form" >
+                    <v-text-field
+                        type="text"
+                        label="Firstname:"
+                        v-model="formValidate.fname"
+                        :rules="validFname"
+                        dense
+                        required
+                        outlined
+                    ></v-text-field>
+                    <v-text-field
+                        type="text"
+                        label="Lastname:"
+                        v-model="formValidate.lname"
+                        :rules="validLname"
+                        dense
+                        required
+                        outlined
+                        ></v-text-field>
+                    <v-select
+                        :items="products"
+                        v-model="formValidate.product"
+                        label="Select your Product:"
+                        :rules="validProduct"
+                        dense
+                        required
+                        outlined
+                    ></v-select>
+                    <v-text-field
+                        type="text"
+                        label="Company:"
+                        v-model="formValidate.company"
+                        :rules="validCompany"
+                        dense
+                        required
+                        outlined
+                    ></v-text-field>
+                    <v-text-field
+                        type="tel"
+                        label="Tel:"
+                        v-model="formValidate.tel"
+                        :rules="validTel"
+                        dense
+                        required
+                        outlined
+                    ></v-text-field>
+                    <v-spacer></v-spacer>
+                    <v-btn 
+                        color="success"
+                        :disabled="!valid"
+                        @click="validator"
+                    >Submit</v-btn>
+                </v-form>
+            </v-container>
+        </v-row>
+    </v-app>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        data: () => ({
+            validFname: [v => !!v || 'Please Input your Firstname'],
+            validLname: [v => !!v || 'Please Input your Lastname'],
+            validProduct: [v => !!v || 'Please Select a Product'],
+            validCompany: [v => !!v || 'Please Input your Company'],
+            validTel: [v => !!v || 'Please Input your TEL'],
+            products: ['Consulting', 'Real Estate', 'Project Planning', 'Other'],
+            formValidate:{
+                fname: '',
+                lname: '',
+                company: '',
+                product: null,
+                tel: ''
+            },
+            valid: false,
+            img: '',
+            id: '',
+            name: '',
+            token: ''
+        }),
+        created() {
+            liff.init({ liffId: "1655451474-ApMmeaEr" }, () => {
+                if (liff.isLoggedIn()){
+
+                } else {
+                    liff.login()
+                }
+            }, err => console.error(err.code, error.messages))
+        },
+        methods: {
+            validator(){
+                let already = this.$refs.form.validate() //check validate() on JavaScript (. through the form)
+                if (already === true){
+                    liff.getProfile()
+                        .then(profile => {
+                            this.img = profile.pictureUrl
+                            this.id = profile.userId
+                            this.name = profile.displayName
+                            this.token = liff.getDecodedIDToken().email
+
+                            let group = { firstname: this.formValidate.fname, lastname: this.formValidate.lname, 
+                                product: this.formValidate.product, company: this.formValidate.company, tel: this.formValidate.tel,
+                                image: this.img, userID: this.id, lineName: this.name, userEmail: this.token
+                            }
+                            this.tranferData(group)
+                            console.log(group)
+                        })
+                } else {
+                    console.log('Error')
+                }
+            },
+            tranferData(data){
+                const path = '/liffdemo'
+                axios.post(path, data)
+                    .then(() => {
+                        this.alertPopup()
+                        console.log('Tranfer Complete')
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    })
+            },
+            alertPopup(){
+                Swal.fire(
+                    'Complete!',
+                    'Your information was save',
+                    'success'
+                )
+            }
+        },
+        delimiters: ["[[","]]"]
+    })
+</script>
+
+{% endblock %}

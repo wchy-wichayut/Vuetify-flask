@@ -1,6 +1,6 @@
 {% extends "layoutDemo.html" %}
 {% block content %}
-<br><br>
+<br><br><br><br>
 <div id="app">
   <v-app id="inspire">
     <v-row justify="center">
@@ -97,7 +97,7 @@
         }
       },
       sendData(data) { //send Axios with path to post json to Back end
-        const path = '/sdata'
+        const path = '/test'
         axios.post(path, data) //(post to path, with data on func)
           .then(() => {
             this.popUp()

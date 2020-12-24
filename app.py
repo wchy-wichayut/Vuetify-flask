@@ -531,6 +531,14 @@ def test():
 
 
 
+@app.route('/liffdemo', methods=["GET", "POST"])
+def liffdemo():
+    if request.method == "POST":
+        liffForm = request.get_json()
+        print(liffForm)
+        return make_response(liffForm)
+    else:
+        return render_template('/lineLiff/lineLiffLink.html')
 
 
 if __name__ == '__main__':
